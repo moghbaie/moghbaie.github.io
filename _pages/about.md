@@ -1,8 +1,10 @@
 ---
 permalink: /about/
-title: "About"
+title: "About me"
 ---
 
-Tempor velit sint sunt ipsum tempor enim ad qui ullamco. Est dolore anim ad velit duis dolore minim sunt aliquip amet commodo labore. Ut eu pariatur aute ea aute excepteur laborum. Esse ea esse excepteur minim mollit qui cillum excepteur ex dolore magna. Labore deserunt fugiat incididunt incididunt sint ea. Consequat dolore aute laboris quis proident quis non et est consectetur ex eiusmod sit culpa.
+I am a highly motivated Machine Learning Engineer with a passion for building large-scale, distributed machine learning algorithms and systems. Throughout my career, I've leveraged expertise in deep learning frameworks (PyTorch, TensorFlow) and strong programming skills (Python, R) to develop and deploy impactful models in production environments.
 
-Cupidatat ea do et in excepteur in. Ad nostrud ut est esse eu duis ea sunt eiusmod. Aliquip tempor veniam sint elit fugiat. Velit incididunt laboris amet incididunt labore dolore irure velit excepteur commodo deserunt laborum. Consectetur eu fugiat veniam veniam Lorem labore magna eiusmod. Ea occaecat reprehenderit pariatur consectetur minim labore ut aliquip.
+My experience spans various domains, including drug discovery research at Johnson & Johnson, where I performed large-scale genome-wide analysis and implemented machine learning to identify genetic associations with complex diseases. I'm also well-versed in bioinformatics, having designed data processing pipelines for proteomics and genomics at Rockefeller University. My academic background is equally diverse, with a PhD in Systems Engineering and Software Development from Stevens Institute of Technology and an ongoing Artificial Intelligence certificate program at Columbia University.
+
+Currently, I'm particularly interested in applying my skills to the field of drug discovery, but I'm always eager to explore new challenges and contribute to cutting-edge projects.
