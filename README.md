@@ -21,7 +21,18 @@ Images go in `assets/images/` and are referenced as `/assets/images/name.png`.
 | Header, footer, fonts (shared by all pages) | `_layouts/default.html` |
 | Post page layout | `_layouts/post.html` |
 | Writing list page | `writing/index.html` |
-| Sample work entries (projects & code) | `_data/work.yml` |
-| Sample work page layout | `work/index.html` |
+| Project pages (one file each) | `_projects/*.md` |
+| Project page layout | `_layouts/project.html` |
+| Sample work page (lists all projects) | `work/index.html` |
+
+## Adding a project
+
+Copy any file in `_projects/`, rename it (the filename becomes the URL: `_projects/my-thing.md` →
+`/projects/my-thing/`), and edit the top section:
+
+- `kind: project` shows it under **Selected projects**; `kind: code` under **Open code**
+- `order` sets its position; `org`, `summary`, `tags` and `links` fill in the card and page header
+
+Everything below the `---` is the page body, written in Markdown. It appears on Sample work automatically.
 | Colors & styles | `assets/css/style.css` (colors are variables at the top) |
 | Site title / description | `_config.yml` |

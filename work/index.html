@@ -3,6 +3,9 @@ layout: default
 title: Sample work
 description: Selected projects and open research code by Mehrnoosh Oghbaie.
 ---
+{% assign projects = site.projects | where: "kind", "project" | sort: "order" %}
+{% assign code = site.projects | where: "kind", "code" | sort: "order" %}
+
 <section class="section">
   <div class="section-head">
     <div class="eyebrow">Sample work</div>
@@ -10,12 +13,13 @@ description: Selected projects and open research code by Mehrnoosh Oghbaie.
     <p class="lead">A few problems I've worked on in industry and research — and what came out of them.</p>
   </div>
   <div class="work-grid">
-    {% for p in site.data.work.projects %}
+    {% for p in projects %}
     <article class="card work-card">
       {% if p.org %}<div class="work-org">{{ p.org }}</div>{% endif %}
-      <h3>{{ p.title }}</h3>
+      <h3><a class="card-link" href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
       <p>{{ p.summary }}</p>
       {% if p.tags %}<ul class="tags">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>{% endif %}
+      <div class="work-links"><span class="read-more">Read more →</span></div>
     </article>
     {% endfor %}
   </div>
@@ -28,16 +32,12 @@ description: Selected projects and open research code by Mehrnoosh Oghbaie.
     <p class="lead">Pipelines and tools from my proteomics and genomics work. More on <a href="https://github.com/moghbaie">GitHub</a>.</p>
   </div>
   <div class="work-grid">
-    {% for p in site.data.work.code %}
+    {% for p in code %}
     <article class="card work-card">
-      <h3 class="mono-title">{{ p.title }}</h3>
+      <h3 class="mono-title"><a class="card-link" href="{{ p.url | relative_url }}">{{ p.title }}</a></h3>
       <p>{{ p.summary }}</p>
       {% if p.tags %}<ul class="tags">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>{% endif %}
-      {% if p.links %}
-      <div class="work-links">
-        {% for l in p.links %}<a href="{{ l.url }}">{{ l.label }} →</a>{% endfor %}
-      </div>
-      {% endif %}
+      <div class="work-links"><span class="read-more">Read more →</span></div>
     </article>
     {% endfor %}
   </div>

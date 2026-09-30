@@ -10,6 +10,17 @@ timezone: America/New_York
 markdown: kramdown
 permalink: /writing/:year/:title/
 
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+
+defaults:
+  - scope:
+      type: projects
+    values:
+      layout: project
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
