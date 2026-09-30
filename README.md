@@ -1,27 +1,30 @@
-# Minimal Mistakes remote theme starter
+# moghbaie.github.io
 
-Click [**Use this template**](https://github.com/mmistakes/mm-github-pages-starter/generate) button above for the quickest method of getting started with the [Minimal Mistakes Jekyll theme](https://github.com/mmistakes/minimal-mistakes).
+Personal website of Mehrnoosh Oghbaie, live at <https://moghbaie.github.io>.
+Built with [Jekyll](https://jekyllrb.com/) and the
+[Minimal Mistakes](https://mmistakes.github.io/minimal-mistakes/) theme, hosted on GitHub Pages.
 
-Contains basic configuration to get you a site with:
+## Where to edit things
 
-- Sample posts.
-- Sample top navigation.
-- Sample author sidebar with social links.
-- Sample footer links.
-- Paginated home page.
-- Archive pages for posts grouped by year, category, and tag.
-- Sample about page.
-- Sample 404 page.
-- Site wide search.
+| What | File |
+|------|------|
+| Site title, bio, sidebar & footer links | `_config.yml` |
+| Home page | `index.md` |
+| Top navigation | `_data/navigation.yml` |
+| About / Experience pages | `_pages/about.md`, `_pages/experience.md` |
+| Projects list | `_data/projects.yml` |
+| Blog posts | `_posts/YYYY-MM-DD-title.md` |
+| Profile photo | `assets/images/Mehrnoosh_Oghbaie.JPEG` |
 
-Replace sample content with your own and [configure as necessary](https://mmistakes.github.io/minimal-mistakes/docs/configuration/).
+Push to `master` and GitHub Pages rebuilds the site automatically (takes ~1 minute).
 
----
+## Run locally (optional)
 
-## Troubleshooting
+Requires Ruby (on Windows: [RubyInstaller](https://rubyinstaller.org/) with DevKit).
 
-If you have a question about using Jekyll, start a discussion on the [Jekyll Forum](https://talk.jekyllrb.com/) or [StackOverflow](https://stackoverflow.com/questions/tagged/jekyll). Other resources:
+```sh
+bundle install
+bundle exec jekyll serve
+```
 
-- [Ruby 101](https://jekyllrb.com/docs/ruby-101/)
-- [Setting up a Jekyll site with GitHub Pages](https://jekyllrb.com/docs/github-pages/)
-- [Configuring GitHub Metadata](https://github.com/jekyll/github-metadata/blob/master/docs/configuration.md#configuration) to work properly when developing locally and avoid `No GitHub API authentication could be found. Some fields may be missing or have incorrect data.` warnings.
+Then open <http://localhost:4000>.

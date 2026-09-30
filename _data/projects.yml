@@ -1,0 +1,13 @@
+# Projects shown on /projects/. Add one entry per project:
+#   - name: "Project name"
+#     url: "https://github.com/moghbaie/repo"   # optional
+#     description: "One or two sentences on what it does and why it matters."
+#     tags: ["PyTorch", "Genomics"]              # optional
+
+- name: "Genome-wide association analysis with ML"
+  description: "Large-scale genome-wide analysis combined with machine learning to identify genetic associations with complex diseases."
+  tags: ["GWAS", "Machine Learning", "Drug Discovery"]
+
+- name: "Proteomics & genomics data pipelines"
+  description: "Reproducible pipelines for processing and analyzing proteomics and genomics data."
+  tags: ["Bioinformatics", "Python", "R"]
