@@ -21,5 +21,7 @@ Images go in `assets/images/` and are referenced as `/assets/images/name.png`.
 | Header, footer, fonts (shared by all pages) | `_layouts/default.html` |
 | Post page layout | `_layouts/post.html` |
 | Writing list page | `writing/index.html` |
+| Sample work entries (projects & code) | `_data/work.yml` |
+| Sample work page layout | `work/index.html` |
 | Colors & styles | `assets/css/style.css` (colors are variables at the top) |
 | Site title / description | `_config.yml` |

@@ -1,0 +1,44 @@
+---
+layout: default
+title: Sample work
+description: Selected projects and open research code by Mehrnoosh Oghbaie.
+---
+<section class="section">
+  <div class="section-head">
+    <div class="eyebrow">Sample work</div>
+    <h2>Selected projects.</h2>
+    <p class="lead">A few problems I've worked on in industry and research — and what came out of them.</p>
+  </div>
+  <div class="work-grid">
+    {% for p in site.data.work.projects %}
+    <article class="card work-card">
+      {% if p.org %}<div class="work-org">{{ p.org }}</div>{% endif %}
+      <h3>{{ p.title }}</h3>
+      <p>{{ p.summary }}</p>
+      {% if p.tags %}<ul class="tags">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>{% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="section work-code">
+  <div class="section-head">
+    <div class="eyebrow">Open code</div>
+    <h2>Research code you can read.</h2>
+    <p class="lead">Pipelines and tools from my proteomics and genomics work. More on <a href="https://github.com/moghbaie">GitHub</a>.</p>
+  </div>
+  <div class="work-grid">
+    {% for p in site.data.work.code %}
+    <article class="card work-card">
+      <h3 class="mono-title">{{ p.title }}</h3>
+      <p>{{ p.summary }}</p>
+      {% if p.tags %}<ul class="tags">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>{% endif %}
+      {% if p.links %}
+      <div class="work-links">
+        {% for l in p.links %}<a href="{{ l.url }}">{{ l.label }} →</a>{% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+</section>
