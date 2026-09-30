@@ -1,35 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mehrnoosh Oghbaie — AI Researcher</title>
-<meta name="description" content="Mehrnoosh Oghbaie — AI researcher and data scientist working on graphs, probabilistic modeling, LLMs and computational biology.">
-<meta property="og:title" content="Mehrnoosh Oghbaie — AI Researcher">
-<meta property="og:description" content="I build models that make sense of messy, connected data.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://moghbaie.github.io/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
-</head>
-<body>
-
-<header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="#top">Mehrnoosh Oghbaie</a>
-    <nav class="nav" aria-label="Main">
-      <a href="#about">About</a>
-      <a href="#work">What I do</a>
-      <a href="#experience">Experience</a>
-      <a href="#publications">Publications</a>
-      <a class="cta" href="#contact">Say hello</a>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
+---
+layout: default
+title: AI Researcher
+description: I build models that make sense of messy, connected data.
+---
 
   <!-- Hero -->
   <section id="top" class="hero grid-12">
@@ -193,6 +166,28 @@
     </aside>
   </section>
 
+  {% if site.posts.size > 0 %}
+  <!-- Latest writing -->
+  <section id="writing" class="section">
+    <div class="section-head">
+      <div class="eyebrow">Writing</div>
+      <h2>Latest notes.</h2>
+    </div>
+    <ol class="post-list">
+      {% for post in site.posts limit:3 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">
+          <span class="when">{{ post.date | date: "%b %-d, %Y" }}</span>
+          <span class="title">{{ post.title }}</span>
+          {% if post.subtitle %}<span class="sub">{{ post.subtitle }}</span>{% endif %}
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+    <p class="more"><a href="{{ '/writing/' | relative_url }}">All writing →</a></p>
+  </section>
+  {% endif %}
+
   <!-- Contact -->
   <section id="contact" class="contact grid-12">
     <div class="contact-text">
@@ -204,15 +199,3 @@
       <a class="btn btn-ghost" href="https://github.com/moghbaie">Find me on GitHub</a>
     </div>
   </section>
-
-</main>
-
-<footer class="site-footer">
-  <div class="wrap">
-    <span>© 2026 Mehrnoosh Oghbaie</span>
-    <span class="mono">Long Island City, NY</span>
-  </div>
-</footer>
-
-</body>
-</html>

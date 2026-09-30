@@ -1,0 +1,26 @@
+---
+layout: default
+title: Writing
+description: Notes and essays by Mehrnoosh Oghbaie on graphs, probabilistic modeling, LLMs and computational biology.
+---
+<section class="section">
+  <div class="section-head">
+    <div class="eyebrow">Writing</div>
+    <h2>Notes from the whiteboard.</h2>
+  </div>
+  {% if site.posts.size > 0 %}
+  <ol class="post-list">
+    {% for post in site.posts %}
+    <li>
+      <a href="{{ post.url | relative_url }}">
+        <span class="when">{{ post.date | date: "%b %-d, %Y" }}</span>
+        <span class="title">{{ post.title }}</span>
+        {% if post.subtitle %}<span class="sub">{{ post.subtitle }}</span>{% endif %}
+      </a>
+    </li>
+    {% endfor %}
+  </ol>
+  {% else %}
+  <p class="lead">First posts coming soon.</p>
+  {% endif %}
+</section>

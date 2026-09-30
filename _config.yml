@@ -1,0 +1,24 @@
+title: Mehrnoosh Oghbaie
+description: >-
+  AI researcher and data scientist working on graphs, probabilistic modeling,
+  LLMs and computational biology.
+url: "https://moghbaie.github.io"
+baseurl: ""
+author: Mehrnoosh Oghbaie
+timezone: America/New_York
+
+markdown: kramdown
+permalink: /writing/:year/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+feed:
+  path: writing/feed.xml
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
