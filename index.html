@@ -195,7 +195,34 @@ description: I build models that make sense of messy, connected data.
       <p>I'm always up for a good puzzle — especially one involving graphs, messy data, or science that deserves better tools. Bring a whiteboard.</p>
     </div>
     <div class="contact-actions">
-      <a class="btn btn-light" href="mailto:m.oghbaie@gmail.com">m.oghbaie@gmail.com</a>
+      <a class="btn btn-light" href="mailto:m.oghbaie@gmail.com" data-open-contact>m.oghbaie@gmail.com</a>
       <a class="btn btn-ghost" href="https://github.com/moghbaie">Find me on GitHub</a>
     </div>
   </section>
+
+  <!-- Contact form (opens when the email button is clicked) -->
+  <dialog id="contact-dialog" class="contact-dialog" aria-labelledby="contact-dialog-title">
+    <form id="contact-form" action="https://formsubmit.co/ajax/m.oghbaie@gmail.com" method="POST">
+      <div class="dialog-head">
+        <h2 id="contact-dialog-title">Send me a message</h2>
+        <button type="button" class="dialog-close" data-close-contact aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="form-fields">
+        <label>Your name<input type="text" name="name" required autocomplete="name"></label>
+        <label>Your email<input type="email" name="email" required autocomplete="email"></label>
+        <label>Message<textarea name="message" rows="6" required></textarea></label>
+        <!-- spam trap: real people never fill this in -->
+        <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="_subject" value="New message from moghbaie.github.io">
+        <input type="hidden" name="_template" value="table">
+      </div>
+      <p class="form-status" role="status" aria-live="polite"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-outline" data-close-contact>Cancel</button>
+        <button type="submit" class="btn btn-primary">Send message</button>
+      </div>
+    </form>
+  </dialog>
+  <script src="{{ '/assets/js/contact.js' | relative_url }}" defer></script>
