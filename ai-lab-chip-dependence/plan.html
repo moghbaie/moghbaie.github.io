@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-registered Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>:root{--bg:#eef2f6;--surface:#ffffff;--ink:#0d1b2a;--ink2:#4b5a6b;--line:#d3dbe4;--track:#e3e9ef;--accent:#a4481f;--accent-ink:#ffffff;--shared:#6b7a8c;--warn:#b45309;--ok:#15803d;--d0:#eef4fc;--d1:#cde2fb;--d2:#86b6ef;--d3:#3987e5;--d4:#1c5cab;--d5:#0d366b;--display:"Archivo","Helvetica Neue",Arial,sans-serif;--body:"IBM Plex Sans","Segoe UI",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1320;--surface:#121c2b;--ink:#e6edf5;--ink2:#9fb0c3;--line:#24324a;--track:#1b2738;--accent:#e08a5f;--accent-ink:#0b1320;--shared:#8fa0b4;--warn:#f0a35e;--ok:#4cc27a;--d0:#16253a;--d1:#1d3a5f;--d2:#245a96;--d3:#3987e5;--d4:#86b6ef;--d5:#cde2fb;color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#0b1320;--surface:#121c2b;--ink:#e6edf5;--ink2:#9fb0c3;--line:#24324a;--track:#1b2738;--accent:#e08a5f;--accent-ink:#0b1320;--shared:#8fa0b4;--warn:#f0a35e;--ok:#4cc27a;--d0:#16253a;--d1:#1d3a5f;--d2:#245a96;--d3:#3987e5;--d4:#86b6ef;--d5:#cde2fb;color-scheme:dark;}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+
+.wrap{max-width:880px;margin:0 auto;padding-block:32px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:36px}
+h1{font:800 36px/1.1 var(--display);margin:0}h2{font:600 22px/1.25 var(--display);margin:18px 0 6px}h3{font:600 18px var(--display);margin:14px 0 4px}h4{font:600 16px var(--display);margin:10px 0 2px}
+p{margin:6px 0;max-width:72ch}.lead{font-size:18px;max-width:68ch}
+.eyebrow{font:500 13px var(--mono)}a{color:var(--accent)}
+.facts{display:grid;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:14px}
+.facts div{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px}.facts .k{color:var(--ink2);font:600 12px var(--mono);text-transform:uppercase;padding-top:2px}
+code{font:13px var(--mono);overflow-wrap:anywhere}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:7px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:600 12px var(--mono);color:var(--ink2);text-transform:uppercase}tr:last-child td{border-bottom:0}
+.doc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 24px 20px}
+.doc ul,.doc ol{padding-left:22px;max-width:72ch}hr{border:0;border-top:1px solid var(--line)}
+footer{font-size:13px;color:var(--ink2)}
+@media (max-width:600px){.facts div{grid-template-columns:1fr;gap:2px}}
+</style>
+</head><body><div class="wrap">
+<header style="display:grid;gap:12px">
+  <div class="eyebrow"><a href="index.html">← Back to the report</a></div>
+  <h1>Pre-registered plan</h1>
+  <div class="eyebrow" style="color:var(--ink2)">Ensly Labs LLC</div>
+  <p class="lead">Before collecting any data, we wrote down exactly what we would measure and how we would decide each question: which labs and firms are included, how a lab&#x27;s dependence on a firm is calculated, the rule that sets aside a firm every lab depends on, how uncertain numbers are given ranges, and how sure a result must be before we call it a finding. That document was frozen with a checksum, so any later change is visible. Changes made after the freeze are listed below with their date and reason, and nothing above them was rewritten.</p>
+  <div class="facts">
+    <div><span class="k">Frozen</span><span>2026-11-21, before data collection (commit <code>f84e12877d</code>)</span></div>
+    <div><span class="k">SHA-256 now</span><span><code>41e95053ce8ebf1600822ada51e8ca56b638edd6f97271e9cfdd823a1ebb6568</code> (matches the recorded freeze)</span></div>
+    <div><span class="k">Amendments</span><span>4, each dated and appended; the text above them is unchanged since the freeze (checked by an automated test)</span></div>
+  </div>
+</header>
+<section><h2>Dated amendments</h2><div class="tbl"><table><thead><tr><th>id</th><th>date</th><th>what changed</th></tr></thead><tbody><tr><td><a href='#a1-21-nov-2026-unknown-suppliers-and-the'>A1</a></td><td>21 Nov 2026</td><td>unknown suppliers, and the shared-firm set under licences revoked (before any data collection)</td></tr><tr><td><a href='#a2-21-nov-2026-bounds-for-unknown-suppli'>A2</a></td><td>21 Nov 2026</td><td>bounds for unknown suppliers (before any data collection)</td></tr><tr><td><a href='#a3-21-nov-2026-share-method-for-undisclo'>A3</a></td><td>21 Nov 2026</td><td>share method for undisclosed mixes; premise correction; scope of the Chinese bloc (approved by the project owner after B1 review)</td></tr><tr><td><a href='#a4-21-nov-2026-plausible-unknown-supplie'>A4</a></td><td>21 Nov 2026</td><td>plausible unknown suppliers in the upper bound (owner&#x27;s instruction after the final-draft review)</td></tr></tbody></table></div></section>
+<section class="doc"><h2 id="pre-registration-which-ai-labs-depend-mo">Pre-registration: which AI labs depend most on a single chip-supply firm?</h2>
+<p><em>Frozen 21 Nov 2026, before any data collection. Companion to <code>plan_AI_lab_dependency.md</code> (v4.2), which stays the narrative plan. This file turns the plan into exact definitions. If the two disagree, this file wins. Any later change goes in the &quot;Amendments&quot; section at the bottom, with its date and reason; nothing above that line is edited.</em></p>
+<h3 id="1-research-question">1 · Research question</h3>
+<p>For each of 15 AI labs (8 US-aligned, 7 Chinese), how concentrated is its dependence on individual firms in the chip, fab, HBM and packaging steps? And what share of its compute is lost if its most critical firm fails?</p>
+<p>Labs (fixed list): OpenAI, Anthropic, Google DeepMind, Meta, xAI, Microsoft AI, Amazon AGI, Mistral (US-aligned); DeepSeek, Alibaba (Qwen), ByteDance (Seed), Tencent (Hunyuan), Baidu (ERNIE), Zhipu (Z.ai), Moonshot (Kimi) (China).</p>
+<h3 id="2-hypotheses">2 · Hypotheses</h3>
+<ul><li><strong>H1.</strong> Every US-aligned lab depends 100% on TSMC (fab) and ~100% on TSMC CoWoS (packaging). These firms therefore don&#x27;t differentiate US labs, and are reported as a shared exposure. <em>Operational test:</em> H1 is supported if both TSMC and TSMC CoWoS meet the shared-firm rule (§4) for the US-aligned bloc, at the data midpoints <strong>and</strong> in ≥ 90% of uncertainty draws.
+</li><li><strong>H2.</strong> Beyond the shared firms, single-vendor labs (xAI, Mistral, Zhipu) and TPU-heavy Google DeepMind are the most exposed. Labs with two or more large chip sources (Anthropic, Meta, OpenAI) are the least exposed. <em>Operational test:</em> supported if each of {xAI, Mistral, Zhipu, Google DeepMind} has a higher critical-firm loss (shared firms excluded) than each of {Anthropic, Meta, OpenAI} in ≥ 90% of draws. Pairs that fail are reported as ties.
+</li><li><strong>H3.</strong> Chinese labs are less exposed to any single firm than US labs, but their critical firms are subject to policy decisions (SMIC, Huawei Ascend, licensed Nvidia supply), not market events. <em>Operational test:</em> (a) the Chinese bloc&#x27;s median critical-firm loss is below the US-aligned bloc&#x27;s in ≥ 90% of draws; (b) for each Chinese lab, its critical firm in the status-quo scenario is SMIC, Huawei Ascend, or a licence-restricted link. H3 is supported only if both (a) and (b) hold.
+</li></ul>
+<h3 id="3-model">3 · Model</h3>
+<ul><li><strong>Layers.</strong> Lab → chip → {fab, HBM, packaging}. No other layers enter the ranking.
+</li><li><strong>Edges.</strong> <code>buyer → supplier</code> with a <strong>slot</strong> (<code>chip</code>, <code>fab</code>, <code>hbm</code>, <code>pkg</code>), a <strong>share</strong> (the supplier&#x27;s share of this buyer&#x27;s intake for that slot, as low/mid/high), a <strong>status</strong> (<code>confirmed</code>, <code>reported</code>, <code>restricted</code>) and a <strong>basis</strong> (<code>disclosed</code>, <code>reported</code>, <code>estimate</code>).
+</li><li><strong>Exposure.</strong> For lab <em>i</em>, firm <em>f</em> in slot <em>s</em>: <code>exposure(i,f) = Σ_c share(i→c) · dep(c,f) / Σ_{c needs s} share(i→c)</code>. Here <code>dep(c,f)</code> is f&#x27;s share of chip c&#x27;s slot-s intake, <strong>plus the share of any supplier g that itself requires f</strong> (indirect dependency; today only Amkor/ASE&#x27;s CoWoS steps, which need TSMC&#x27;s interposer). The denominator restricts the calculation to compute that needs slot s (e.g. Cerebras needs no HBM and no CoWoS), and that fraction is reported alongside. For the chip slot, exposure(i, chip) = share(i→chip).
+</li><li><strong>Metric 1: effective suppliers.</strong> Per lab and slot, HHI = Σ_f exposure(i,f)², and effective suppliers = 1 / HHI.
+</li><li><strong>Metric 2: critical-firm loss.</strong> Remove one firm (it delivers 0). A chip&#x27;s output is the minimum over its slots of the surviving fraction of that slot&#x27;s intake, and a firm required by a removed firm also delivers 0 (AND across slots, OR within a slot, indirect dependency included). The lab&#x27;s loss is the compute-weighted sum of its chips&#x27; losses. The critical firm is the one that maximises loss. Firms with no modelled supplier in a slot are not tested on that slot.
+</li><li><strong>No substitution</strong> beyond current shares, within the 2026–2027 horizon.
+</li></ul>
+<h3 id="4-shared-firm-rule-fixed-now-not-tuned">4 · Shared-firm rule (fixed now, not tuned)</h3>
+<p>A firm <em>f</em> is a <strong>shared exposure for bloc B</strong> if <code>exposure(i,f) ≥ 0.95</code> for <strong>every</strong> lab <em>i</em> in B, where exposure includes indirect dependency (§3). The rule is evaluated in the <strong>status-quo</strong> scenario at the data <strong>midpoints</strong>. The set of shared firms found this way is reported once per bloc, and every lab in that bloc is then ranked on its critical-firm loss with those firms excluded. The same excluded set is used in both scenarios. A lab whose compute does not use slot s has exposure 0 in s, so no firm in s can be shared for its bloc.</p>
+<p><em>Disclosure:</em> the rule&#x27;s wording was settled after running it on the <strong>old map data</strong> (the reference HTML; see <code>steps/step1/</code>). On that data it marks only TSMC as shared for the US bloc. CoWoS reaches 99–100% for seven US labs and 93% for Amazon (Intel EMIB on Trainium). The threshold (0.95) is the plan&#x27;s original value and was not changed.</p>
+<h3 id="5-scenarios">5 · Scenarios</h3>
+<ul><li><strong>Status quo.</strong> Licence-restricted links included at their current shares.
+</li><li><strong>Licences revoked.</strong> Every <code>restricted</code> link set to 0: US-licensed Nvidia supply to Chinese labs, Samsung/TSMC foundry supply to Chinese designers, and Samsung HBM to Chinese chips. Shares are then re-normalised within each buyer&#x27;s slot.
+</li></ul>
+<h3 id="6-data-rules">6 · Data rules</h3>
+<ul><li><strong>Time frame:</strong> contracted capacity online in 2026–2027.
+</li><li><strong>Each share has low, mid and high values, a basis, a status and at least one source</strong>, or is flagged <code>no_source</code>.
+</li><li><strong>Range rules:</strong>
+<ol><li>Disclosed figure: mid = the disclosed value, range = ±5 percentage points (clipped to [0, 1]).
+</li><li>Several sources that conflict: the range spans the lowest and highest sourced values, and mid = their median.
+</li><li>A single indirect source (for example only a deal size): low = this deal only, high = this deal plus typical cloud rental, and mid = the average of low and high.
+</li><li>No source: mid = best estimate, range = mid ± 50% of mid (relative), clipped to [0, 1], and flagged <code>no_source</code>.
+</li></ol>
+</li><li><strong>Research depth:</strong> full research for lab compute mixes and chip HBM splits; a quick confirmation for chip→fab and chip→packaging links.
+</li><li><strong>Search log:</strong> every value has rows in <code>data/search_log.csv</code> (value id, date, query, URL, what it says, used or not).
+</li><li><strong>Review batches:</strong> (B1) US-aligned lab mixes, (B2) Chinese lab mixes, (B3) HBM splits per chip, (B4) fab and packaging links. Each batch is approved before the next one starts.
+</li><li><strong>Freeze:</strong> after B4 is approved, the data gets a version date and a SHA-256 hash in <code>data/VERSION</code>. Analysis runs only on frozen data.
+</li><li><strong>Upstream layers (L0–L3)</strong> are documented once as shared exposure, and never used in the ranking.
+</li></ul>
+<h3 id="7-uncertainty-test">7 · Uncertainty test</h3>
+<ul><li>1,000 draws (seed fixed at 20261121): each share is sampled uniformly in [low, high], then each buyer&#x27;s slot is re-normalised to 100%.
+</li><li>For each lab, report the median and 5th–95th percentile of both metrics and its rank range.
+</li><li>A ranking claim is made only if it holds in ≥ 90% of draws; otherwise the labs are reported as tied.
+</li><li>Structure check: remove each <code>reported</code> link in turn, and list any lab whose critical-firm loss moves by &gt; 10 points.
+</li></ul>
+<h3 id="8-reproduction-check-step-3-pass-conditi">8 · Reproduction check (Step 3 pass condition)</h3>
+<p>On the old map data (<code>steps/step1/reference_edges.csv</code>), with the map&#x27;s own exclusion set {TSMC, CoWoS, Amkor/ASE}, <code>analyze.py</code> must give Anthropic 52% (critical firm SK hynix) and xAI 100% (Nvidia). The analysis must also match hand calculations for Anthropic and xAI.</p>
+<h3 id="amendments">Amendments</h3>
+<h4 id="a1-21-nov-2026-unknown-suppliers-and-the">A1 · 21 Nov 2026 · unknown suppliers, and the shared-firm set under licences revoked (before any data collection)</h4>
+<p><em>Reason:</em> the step-1 dry run dropped chips with no known supplier for a step from that step&#x27;s denominator. That inflated the shares of the known firms (on the old map data: Alibaba–CoWoS 53%, Baidu–China OSAT 100%). Requested by the project owner.</p>
+<ol><li><strong>Unknown supplier.</strong> Wherever a chip needs a step but its supplier for that step (or part of it) is not found (for example Kunlun HBM and packaging, T-Head packaging, ByteDance ASIC HBM and packaging), an explicit <code>unknown</code> entry is recorded with share = 1 − (sum of the known shares). Unknown shares <strong>stay in the denominator</strong> and are <strong>never re-normalised away</strong>: in the uncertainty draws and in the licences-revoked scenario they are re-normalised together with the known shares, never dropped.
+</li><li><strong>Only a genuine &quot;step not needed&quot;</strong> is excluded from a denominator (for example Cerebras: no HBM, no CoWoS). Each such exclusion is listed with its source (in step 2: a <code>needs</code> column per chip in <code>data/nodes.csv</code>).
+</li><li><strong>Unknown is never a firm.</strong> It can never be a shared firm, a critical firm, or a removal candidate in Metric 2.
+</li><li><strong>Metric 2 with unknown suppliers:</strong> when a known firm is removed, unknown shares are assumed to keep delivering (the removed firm is always a known firm). <em>Proposed by the analyst. Flagged for review.</em>
+</li><li><strong>Metric 1 with unknown suppliers:</strong> an unknown share counts as <strong>one</strong> supplier in the HHI (the conservative choice: it never raises the effective number of suppliers), and the unknown share is reported next to every HHI. *Proposed by the analyst. Flagged for review.*
+</li><li><strong>Shared firms under licences revoked are reported, not applied.</strong> The §4 rule is also evaluated in the licences-revoked scenario, and its result is reported. The excluded set used for ranking is still the status-quo set (§4 unchanged).
+</li><li><strong>Licences revoked, chips that cannot be made:</strong> if setting restricted links to 0 leaves a chip with no supplier (known or unknown) for a step it needs, the chip cannot be made in that scenario. Its share of the lab&#x27;s compute is reported as &quot;compute lost to revocation&quot;, and exposures are computed over the lab&#x27;s remaining compute. *Proposed by the analyst. Flagged for review.*
+</li><li><strong>Step 3 reproduction check (§8) is unaffected.</strong> It reproduces the reference map&#x27;s own method on the old map data, and its two target labs (Anthropic and xAI) have no unknown suppliers.
+</li></ol>
+<h4 id="a2-21-nov-2026-bounds-for-unknown-suppli">A2 · 21 Nov 2026 · bounds for unknown suppliers (before any data collection)</h4>
+<p><em>Reason:</em> review of the three analyst-proposed rules in A1 by the project owner.</p>
+<ol><li><strong>Replaces A1.4. Compute lost is reported as a range.</strong>
+<ul><li><strong>Lower bound:</strong> unknown suppliers keep delivering.
+</li><li><strong>Upper bound:</strong> wherever a chip has an unknown share in a step, that unknown share is assumed to be the failed firm, whenever the failed firm operates in the same step.
+</li><li>The critical firm is determined separately at each bound. **A ranking or hypothesis claim counts only if it holds at both bounds** (and, per §7, in ≥ 90% of draws at each bound). Otherwise the labs are reported as tied.
+</li></ul>
+</li><li><strong>A1.5 accepted.</strong> The unknown share is always displayed next to each effective-suppliers value.
+</li><li><strong>A1.7 accepted, clarified.</strong> A step that still has any unknown share is not &quot;no supplier&quot;. A chip cannot be made only when every known supplier of a needed step is cut <strong>and</strong> that step has no unknown share.
+</li></ol>
+<h4 id="a3-21-nov-2026-share-method-for-undisclo">A3 · 21 Nov 2026 · share method for undisclosed mixes; premise correction; scope of the Chinese bloc (approved by the project owner after B1 review)</h4>
+<p><em>Reason:</em> B1 research found that almost no lab discloses its compute split. The §6 range rules alone could not turn GW, chip-count and dollar evidence into shares.</p>
+<ol><li><strong>Time frame, made exact.</strong> &quot;Contracted capacity online in 2026–2027&quot; means capacity <strong>operating by 31 Dec 2027</strong>: installed capacity plus contracted capacity dated inside the window.
+</li><li><strong>R3 applied to GW evidence (the &quot;GW method&quot;).</strong> For each lab × chip: low = firm GW dated inside the window; high = low plus capacity whose timing inside the window is uncertain (undated tranches, letters of intent, dollar commitments not convertible to GW). Shares: mid = mid-GW ÷ Σ mid-GW; low = own low ÷ (own low + Σ others&#x27; high); high = own high ÷ (own high + Σ others&#x27; low). Each GW bound is written down with its sources in <code>data/b1_inputs.csv</code> (and later batches&#x27; input files).
+</li><li><strong>Premise correction.</strong> The plan says lab mixes are &quot;currently 1 of 15 disclosed&quot; (Anthropic S-1). Anthropic&#x27;s S-1, S-1/A 1–3 and 424B4 contain no GW figures; the widely quoted GW split is an unattributed third-party estimate. Anthropic&#x27;s mix is therefore an estimate (R3), not a disclosure. Only xAI has a primary statement that fixes its mix (R1).
+</li><li><strong>Scope of the Chinese bloc (owner&#x27;s instruction, not a new rule).</strong> B2 is collected as a light pass (one search pass per lab, at most 3 sources, lab → chip only; anything not found quickly gets R4 and the <code>no_source</code> flag). Chinese labs are reported in a separate <strong>exploratory</strong> section outside the main ranking. <strong>H3 is reported as exploratory</strong>, neither supported nor rejected. H1 and H2 are tested as pre-registered on the US-aligned bloc.
+</li><li><strong>Review cadence (owner&#x27;s instruction).</strong> B2, B3, B4 and steps 3–5 are reviewed together with the final draft, before publishing.
+</li></ol>
+<h4 id="a4-21-nov-2026-plausible-unknown-supplie">A4 · 21 Nov 2026 · plausible unknown suppliers in the upper bound (owner&#x27;s instruction after the final-draft review)</h4>
+<p><em>Reason:</em> under A2, an unknown packaging supplier of a Chinese chip (e.g. Huawei Ascend) could be assumed to be TSMC CoWoS, which cannot legally serve it. This produced an implausible 100% upper bound for every Chinese lab.</p>
+<ol><li><strong>Replaces part of A2.1.</strong> In the upper bound, an unknown share in a step is assumed to be the failed firm only if that firm already supplies the same step to at least one chip of the same bloc in the data (the chip&#x27;s bloc, or the lab&#x27;s bloc for an unknown chip). Otherwise the unknown share keeps delivering, as in the lower bound.
+</li><li>The lower bound, the shared-firm rule and every US-aligned result&#x27;s lower bound are unchanged. The step-1 dry-run record on the old map data keeps the pre-A4 behaviour, so that it remains reproducible.
+</li></ol></section>
+<footer>Generated from <code>preregistration.md</code> by <code>scripts/build_plan.py</code>. The repository keeps the file as the timestamped record.</footer>
+</div>
+</body></html>

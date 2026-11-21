@@ -1,0 +1,4 @@
+hypothesis,verdict,detail
+H1,not supported,"TSMC: the least dependent lab, Mistral, relies on it for 96% (meets the 95% rule at the best estimates); the rule holds in 26% of the 1,000 draws, short of the 90% needed. TSMC CoWoS: the least dependent lab, OpenAI, relies on it for 84% (misses the 95% rule at the best estimates); the rule holds in 0% of the 1,000 draws, short of the 90% needed."
+H2,not supported,4 of 9 pre-registered comparisons hold in at least 90% of draws whichever way unknown suppliers are treated. The others do not (unknown suppliers working / failing): Google DeepMind more exposed than Meta in 0% / 0% of draws; xAI (SpaceX) more exposed than Meta in 0% / 0% of draws; Mistral more exposed than OpenAI in 71% / 42% of draws; Mistral more exposed than Anthropic in 0% / 5% of draws; Mistral more exposed than Meta in 0% / 0% of draws.
+H3,exploratory,Chinese labs are shown for context only; this hypothesis is not tested (amendment A3).
