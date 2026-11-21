@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Lab Supply Network Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#eef2f6;--surface:#ffffff;--ink:#0d1b2a;--ink2:#4b5a6b;--line:#d3dbe4;--track:#e3e9ef;--accent:#a4481f;--accent-ink:#ffffff;--shared:#6b7a8c;--warn:#b45309;--ok:#15803d;--d0:#eef4fc;--d1:#cde2fb;--d2:#86b6ef;--d3:#3987e5;--d4:#1c5cab;--d5:#0d366b;--display:"Archivo","Helvetica Neue",Arial,sans-serif;--body:"IBM Plex Sans","Segoe UI",Arial,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1320;--surface:#121c2b;--ink:#e6edf5;--ink2:#9fb0c3;--line:#24324a;--track:#1b2738;--accent:#e08a5f;--accent-ink:#0b1320;--shared:#8fa0b4;--warn:#f0a35e;--ok:#4cc27a;--d0:#16253a;--d1:#1d3a5f;--d2:#245a96;--d3:#3987e5;--d4:#86b6ef;--d5:#cde2fb;color-scheme:dark;}}
+:root[data-theme="dark"]{--bg:#0b1320;--surface:#121c2b;--ink:#e6edf5;--ink2:#9fb0c3;--line:#24324a;--track:#1b2738;--accent:#e08a5f;--accent-ink:#0b1320;--shared:#8fa0b4;--warn:#f0a35e;--ok:#4cc27a;--d0:#16253a;--d1:#1d3a5f;--d2:#245a96;--d3:#3987e5;--d4:#86b6ef;--d5:#cde2fb;color-scheme:dark;}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+:root{--muted:var(--ink2);--west:#2a78d6;--china:#e34948;--restricted:var(--warn)}
+.tiles{display:none!important}
+.tag,.panel .tag{border:0!important;padding:0!important;border-radius:0!important;background:none!important;color:var(--ink2)!important;font-size:12px}
+
+/* Layout: columns read left to right from AI labs down the supply chain to raw inputs (the article's L6 → L0); a detail panel answers "what breaks if this fails". */
+
+
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 1600px; margin: 0 auto; padding: 24px 20px 48px; display: grid; gap: 20px; }
+header h1 { font-family: var(--display); font-weight: 800; font-size: 30px; line-height: 1.15; margin: 0 0 6px; text-wrap: balance; letter-spacing: -0.01em; }
+header p { margin: 0; color: var(--muted); max-width: 80ch; }
+.asof { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; display: grid; gap: 2px; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+.tile:hover, .tile:focus-visible { border-color: var(--accent); outline: none; }
+.tile .k { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.tile .v { font-family: var(--display); font-weight: 700; font-size: 22px; font-variant-numeric: tabular-nums; }
+.tile .s { font-size: 13px; color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 14px 18px; align-items: center; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--surface); }
+.seg button { font: inherit; font-size: 14px; border: 0; background: transparent; color: var(--ink); padding: 6px 12px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--bg); }
+.seg button:focus-visible, .chk input:focus-visible, .rng input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chk { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+.rng { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; }
+.rng input { accent-color: var(--accent); width: 120px; }
+.rng output { font-family: var(--mono); font-variant-numeric: tabular-nums; min-width: 3.5ch; text-align: right; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--muted); align-items: center; }
+.legend svg { vertical-align: middle; }
+.main { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start; }
+@media (max-width: 980px) { .main { grid-template-columns: 1fr; } }
+.graph { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; position: relative; height: min(78vh, 880px); min-height: 420px; }
+.graph svg { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; user-select: none; }
+.graph svg.panning { cursor: grabbing; }
+.zoombar { position: absolute; bottom: 10px; right: 10px; display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; z-index: 2; }
+.zoombar button { font: inherit; font-size: 13px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; box-shadow: 0 1px 2px rgb(0 0 0 / .06); }
+.zoombar button.sq { width: 32px; padding: 4px 0; font-family: var(--mono); font-size: 15px; }
+.zoombar button:hover, .zoombar button:focus-visible { border-color: var(--accent); outline: none; }
+.scrollhint { position: absolute; left: 12px; bottom: 8px; font-size: 12px; color: var(--muted); font-family: var(--mono); background: color-mix(in srgb, var(--surface) 85%, transparent); padding: 2px 6px; border-radius: 4px; pointer-events: none; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px; display: grid; gap: 12px; position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
+.panel h2 { font-family: var(--display); font-size: 20px; margin: 0; line-height: 1.2; }
+.panel .tag, .tag { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+.panel p { margin: 0; }
+.panel ul { margin: 0; padding-left: 18px; }
+.panel li { margin: 2px 0; }
+.panel h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 4px 0 0; }
+ul.loss { list-style: none; padding: 0; }
+ul.loss li { display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+ul.loss strong { margin-left: auto; font-family: var(--mono); }
+.sw { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; margin-right: 4px; }
+.node { cursor: pointer; }
+.node rect { fill: var(--surface); stroke: var(--line); stroke-width: 1.2; }
+.node:focus-visible rect, .node.sel rect { stroke: var(--accent); stroke-width: 2.5; }
+.node .bar { stroke: none; }
+.node text { fill: var(--ink); font-family: var(--body); font-size: 13px; }
+.node text.sub { fill: var(--muted); font-size: 11px; font-family: var(--mono); }
+.node text.badge { font-family: var(--mono); font-size: 11px; fill: var(--muted); }
+.node text.badge.vuln { font-weight: 600; font-size: 12px; }
+.colhead { font-family: var(--display); font-weight: 700; font-size: 14px; fill: var(--ink); letter-spacing: .02em; }
+.colsub { font-family: var(--mono); font-size: 11px; fill: var(--accent); }
+.sechead { font-family: var(--mono); font-size: 11px; fill: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.edge { fill: none; stroke: var(--muted); stroke-opacity: .4; }
+.edge.west { stroke: var(--west); }
+.edge.china { stroke: var(--china); }
+.edge.reported { stroke-dasharray: 6 4; }
+.edge.restricted { stroke: var(--restricted); stroke-dasharray: 2 4; stroke-opacity: .8; }
+.edge.up { stroke-opacity: .22; }
+.dim { opacity: .1; }
+.hot.edge { stroke-opacity: .95; }
+footer { font-size: 13px; color: var(--muted); display: grid; gap: 8px; }
+footer h2 { font-family: var(--display); font-size: 16px; color: var(--ink); margin: 8px 0 0; }
+footer p, footer ul { margin: 0; max-width: 110ch; }
+footer ol { margin: 0; padding-left: 20px; columns: 2 360px; column-gap: 32px; }
+footer a { color: var(--accent); }
+footer table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+footer td, footer th { border-bottom: 1px solid var(--line); padding: 3px 12px 3px 0; text-align: left; }
+@media (prefers-reduced-motion: no-preference) { .edge, .node { transition: opacity .15s; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>AI Lab Compute Supply Network</h1>
+    <p>Which accelerators each major AI lab runs on, and the full chain behind them: fabs, HBM and packaging, then the seven-layer upstream chain from Haddy Alchaer's <a href="https://haddyalchaer.com/supply-chain">"The true fragility of the semiconductor supply chain"</a>: equipment, wafers and photoresist, gas distributors and raw inputs. Select any node to see who depends on it and what breaks if it fails.</p>
+    <div class="asof">Data frozen 2026-11-21 (data/edges.csv midpoints) · layers L4–L7 drive the ranking · equipment, wafers, gases and raw inputs are the reference reconstruction: shared by all Western fabs; not used to rank labs (estimates)</div>
+    <div class="asof">edge thickness = share · lab colour = vulnerability over chips and fab/HBM/packaging · drag, scroll and zoom the graph</div>
+  </header>
+
+  <div class="tiles" id="tiles" aria-label="Nodes whose failure removes the most compute"></div>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Bloc filter">
+      <button type="button" id="b-all" aria-pressed="true">All labs</button>
+      <button type="button" id="b-west" aria-pressed="false">US &amp; allies</button>
+      <button type="button" id="b-china" aria-pressed="false">China</button>
+    </div>
+    <div class="seg" role="group" aria-label="Vulnerability measure for lab colour">
+      <button type="button" id="m-worst" aria-pressed="false">Worst case</button>
+      <button type="button" id="m-exTSMC" aria-pressed="true">Worst excluding shared firms</button>
+    </div>
+    <div class="seg" role="group" aria-label="Scenario"><button type="button" id="s-quo" aria-pressed="true">Status quo</button><button type="button" id="s-rev" aria-pressed="false">Licences revoked</button></div>
+    <label class="rng" for="r-eq">Equipment maker fails → output lost in 12 months <input type="range" id="r-eq" min="0" max="100" step="5" value="25"><output id="o-eq">25%</output></label>
+    <label class="rng" for="r-mat">Material or gas source fails → output lost <input type="range" id="r-mat" min="0" max="100" step="5" value="50"><output id="o-mat">50%</output></label>
+  </div>
+  <div class="legend">
+    <span><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="var(--west)" stroke-width="3"/></svg> confirmed</span>
+    <span><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="var(--muted)" stroke-width="2" stroke-dasharray="6 4"/></svg> reported</span>
+    <span><svg width="34" height="8"><line x1="0" y1="4" x2="34" y2="4" stroke="var(--restricted)" stroke-width="2" stroke-dasharray="2 4"/></svg> US/China license-restricted</span>
+    <span>thickness = share</span>
+    <span>lab vulnerability <svg width="90" height="10"><defs><linearGradient id="vg"><stop offset="0" stop-color="rgb(46,140,90)"/><stop offset=".5" stop-color="rgb(214,150,40)"/><stop offset="1" stop-color="rgb(196,52,44)"/></linearGradient></defs><rect width="90" height="10" rx="2" fill="url(#vg)"/></svg> 0 → 100%</span>
+  </div>
+
+  <div class="main">
+    <div class="graph">
+      <div class="zoombar" role="group" aria-label="Zoom and view">
+        <button type="button" id="v-labs">Labs → fabs</button>
+        <button type="button" id="v-up">Upstream L3 → L0</button>
+        <button type="button" id="v-all">Whole chain</button>
+        <button type="button" class="sq" id="z-in" aria-label="Zoom in">+</button>
+        <button type="button" class="sq" id="z-out" aria-label="Zoom out">−</button>
+      </div>
+      <div class="scrollhint">drag to pan · scroll to move · ⌘/Ctrl + scroll or pinch to zoom</div>
+      <svg id="g" viewBox="0 0 2180 800" role="img" aria-label="Network of AI labs, accelerators, fabs, equipment, materials, gas distributors and raw inputs"></svg></div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <footer>
+    <h2>Method</h2>
+    <p>Each node's output survives in proportion to its inputs. Within one input type (for example photoresist), suppliers substitute in proportion to their shares; across input types a node needs all of them (a fab needs wafers <em>and</em> resist <em>and</em> lithography), so its output is limited by the scarcest type. This is the AND-dependency that the article notes plain max-flow misses. A lab's chips substitute for each other by their share of its compute. <strong>Loss</strong> = 1 − surviving output. Shares that don't add to 100% leave the remainder with unmodelled suppliers, who keep working. A failed chip, fab or packager loses 100% of its output; equipment makers and material or gas sources lose the share set by the two sliders, because tools keep running for months without their vendor and fabs hold weeks to months of materials and gas stock (the 2022 neon shock cost fabs very little output).</p>
+    <p><strong>Worst case</strong> is a lab's largest loss over every single failure. <strong>Worst outside TSMC</strong> leaves out TSMC fabs, CoWoS and the CoWoS steps done by Amkor/ASE, which every US-aligned lab shares.</p>
+
+    <h2>How the upstream layers map to the article</h2>
+    <table>
+      <tr><th>Article layer</th><th>Here</th><th>Article nodes</th><th>Here</th></tr>
+      <tr><td>L6 Consumers (Nvidia, AMD, hyperscalers)</td><td>Accelerators column, with AI labs added beyond it</td><td>8</td><td>13 chips + 15 labs</td></tr>
+      <tr><td>L5 Advanced packaging</td><td>Packaging section</td><td>5</td><td>4</td></tr>
+      <tr><td>L4 Fabs</td><td>Foundry and HBM sections</td><td>14</td><td>8 (AI-relevant only)</td></tr>
+      <tr><td>L3 Equipment</td><td>L3 column</td><td>9</td><td>8</td></tr>
+      <tr><td>L2 Wafers and chemicals</td><td>L2 column</td><td>10</td><td>8</td></tr>
+      <tr><td>L1 Industrial-gas distributors</td><td>L1 column</td><td>6</td><td>6</td></tr>
+      <tr><td>L0 Raw inputs (He, Ne, Kr, Xe, quartz)</td><td>L0 column</td><td>16</td><td>12</td></tr>
+    </table>
+    <p>The article publishes its layers, node names and headline results but not its 446-edge list, so the upstream shares here are my reconstruction from the same kinds of public sources it cites (USGS, ASML reports, CSIS, JRC), and every one is marked "est." in the panel. The article's flow-load benchmarks, for comparison: TSMC 71.9%, NVIDIA 62.5%, ASML EUV 61.5%, TSMC CoWoS 61.5%, JSR 31.2%, SK hynix 28.1%, TOK 7.3%. Its targeted attack removed TSMC CoWoS first (max-flow to 54%) then SK hynix (26%). Those are max-flow loads; the numbers on this page are output losses, a different measure.</p>
+
+    <h2>Assumptions, stated so they can be challenged</h2>
+    <ul>
+      <li><strong>No short-run substitution between suppliers</strong> beyond their current shares: HBM, CoWoS and leading-edge capacity are sold out through 2027, and qualifying a new resist or wafer supplier takes months.</li>
+      <li><strong>Lab compute mixes</strong> are disclosed only for Anthropic (S-1: ~4.7 GW Nvidia, ~4.5 GW TPU, ~1.2 GW Trainium, ~0.8 GW AMD) and single-vendor labs (xAI, Mistral). The rest are estimates.</li>
+      <li><strong>The equipment and material sliders</strong> are judgement calls. Set them to 100% to see the instant-cut-off case, or near 0% for the stockpile-and-wait case.</li>
+      <li><strong>Upstream shares</strong> (wafers, resist, gases, raw sources) are global market shares applied to every Western fab, and scaled down for Chinese fabs to leave room for domestic suppliers not modelled.</li>
+      <li>Huawei's HiBL memory, Kunlun and ByteDance's custom chip have no disclosed upstream suppliers, so they are tested only where links are known.</li>
+    </ul>
+
+    <h2>Sources</h2>
+    <ol>
+      <li><a href="https://haddyalchaer.com/supply-chain">Haddy Alchaer, "The true fragility of the semiconductor supply chain" (May 2026)</a></li>
+      <li><a href="https://www.tradingkey.com/analysis/stocks/us-stocks/262241466-anthropic-ipo-reveals-11gw-compute-footprint-nvidia-accounts-42-tradingkey">Anthropic S-1 compute mix (TradingKey)</a></li>
+      <li><a href="https://www.anthropic.com/news/google-broadcom-partnership-compute">Anthropic–Google–Broadcom TPU deal</a></li>
+      <li><a href="https://www.anthropic.com/news/anthropic-amazon-compute">Anthropic–Amazon Trainium deal</a></li>
+      <li><a href="https://www.cnbc.com/2026/01/16/openai-chip-deal-with-cerebras-adds-to-roster-of-nvidia-amd-broadcom.html">OpenAI deals with Nvidia, AMD, Broadcom, Cerebras (CNBC)</a></li>
+      <li><a href="https://letsdatascience.com/news/openai-secures-20b-cerebras-chip-supply-deal-e26ed60f">OpenAI $20B Cerebras expansion</a></li>
+      <li><a href="https://blofin.com/en/academy/education/amd/amd-meta-deal-explained">Meta–AMD 6 GW MI450 deal</a></li>
+      <li><a href="https://www.cnbc.com/2026/03/11/meta-ai-mtia-chip-data-center.html">Meta MTIA chips (CNBC)</a></li>
+      <li><a href="https://bisi.org.uk/reports/metas-multibillion-dollar-deal-with-google-a-strategic-shift-in-the-ai-chip-market">Meta–Google TPU rental (BISI)</a></li>
+      <li><a href="https://invezz.com/sg/news/2026/09/25/elon-musk-says-xais-colossus-2-could-more-than-double-nvidia-chip-count-by-year-end/">xAI Colossus 2 Nvidia build-out</a></li>
+      <li><a href="https://techfastforward.com/articles/mistral-builds-a-13800-gpu-paris-data-center-in-2026">Mistral Paris GB300 data center</a></li>
+      <li><a href="https://wetheflywheel.com/en/ai-chips/">Microsoft Maia 200, Google TPU specs</a></li>
+      <li><a href="https://www.trendforce.com/news/2026/09/23/news-deepseek-reportedly-expands-huawei-chips-to-ai-training-new-supply-could-arrive-in-4q26/">DeepSeek moves training to Huawei (TrendForce)</a></li>
+      <li><a href="https://chinaaidispatch.com/trackers/domestic-chips/">Ascend 950 orders from Alibaba, ByteDance, Tencent</a></li>
+      <li><a href="https://www.techrepublic.com/article/news-bytedance-tencent-nvidia-h200-china-shipments-apac/">ByteDance, Tencent receive H200s (FT via TechRepublic)</a></li>
+      <li><a href="https://semiconductorx.com/spotlight-huawei-hisilicon.html">Huawei Ascend supply chain: SMIC, CXMT, HBM stockpile</a></li>
+      <li><a href="https://www.nodvolt.com/insights/two-ai-stacks/">China AI stack on SMIC with CXMT HBM</a></li>
+      <li><a href="https://finance.yahoo.com/technology/articles/tsmc-samsung-reportedly-suspend-chip-122633256.html">TSMC, Samsung pause China shipments; Kunlun &amp; ByteDance as Samsung customers</a></li>
+      <li><a href="https://semihub.io/en/blog/cowos-guide-4.html">CoWoS share, Amkor/ASE roles, Intel EMIB</a></li>
+    </ol>
+  </footer>
+</div>
+
+<script>
+// ---------- Data ----------
+// L: 0 lab · 1 accelerator · 2 fab / HBM / packaging (article L4–L5) · 3 equipment (L3) · 4 wafers & chemicals (L2) · 5 gas distributors (L1) · 6 raw inputs (L0)
+// Edges run consumer → supplier: [consumer, supplier, status, share, basis, category?]
+// status c confirmed · r reported · x license-restricted; basis d disclosed · e estimate
+const NODES = [{"id": "openai", "L": 0, "name": "OpenAI", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "anthropic", "L": 0, "name": "Anthropic", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "gdm", "L": 0, "name": "Google DeepMind", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "meta", "L": 0, "name": "Meta", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "xai", "L": 0, "name": "xAI (SpaceX)", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "msft", "L": 0, "name": "Microsoft AI", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "amzn", "L": 0, "name": "Amazon AGI", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "mistral", "L": 0, "name": "Mistral", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "deepseek", "L": 0, "name": "DeepSeek", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "alibaba", "L": 0, "name": "Alibaba (Qwen)", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "bytedance", "L": 0, "name": "ByteDance (Seed)", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "tencent", "L": 0, "name": "Tencent (Hunyuan)", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "baidu", "L": 0, "name": "Baidu (ERNIE)", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "zhipu", "L": 0, "name": "Zhipu (Z.ai)", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "moonshot", "L": 0, "name": "Moonshot (Kimi)", "sub": "China", "bloc": "china", "note": "Exploratory (light data pass). Derivations and sources: see the report's data tables."}, {"id": "nvidia", "L": 1, "name": "Nvidia GPU", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "amd", "L": 1, "name": "AMD Instinct", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "tpu", "L": 1, "name": "Google TPU", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "trainium", "L": 1, "name": "AWS Trainium", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "mtia", "L": 1, "name": "Meta MTIA", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "maia", "L": 1, "name": "Microsoft Maia", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "oaiasic", "L": 1, "name": "OpenAI custom (Broadcom)", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "cerebras", "L": 1, "name": "Cerebras WSE", "sub": "US & allies", "bloc": "west", "note": "Derivations and sources: see the report's data tables."}, {"id": "ascend", "L": 1, "name": "Huawei Ascend", "sub": "China", "bloc": "china", "note": "Derivations and sources: see the report's data tables."}, {"id": "cambricon", "L": 1, "name": "Cambricon MLU", "sub": "China", "bloc": "china", "note": "Derivations and sources: see the report's data tables."}, {"id": "kunlun", "L": 1, "name": "Baidu Kunlun", "sub": "China", "bloc": "china", "note": "Derivations and sources: see the report's data tables."}, {"id": "thead", "L": 1, "name": "Alibaba T-Head", "sub": "China", "bloc": "china", "note": "Supplier in the report's data."}, {"id": "bdasic", "L": 1, "name": "ByteDance custom", "sub": "China", "bloc": "china", "note": "Supplier in the report's data."}, {"id": "tsmc", "L": 2, "name": "TSMC", "sub": "US & allies", "cat": "fab", "note": "Supplier in the report's data."}, {"id": "smic", "L": 2, "name": "SMIC", "sub": "China", "cat": "fab", "bloc": "china", "note": "Supplier in the report's data."}, {"id": "skh", "L": 2, "name": "SK hynix", "sub": "US & allies", "cat": "hbm", "note": "Supplier in the report's data."}, {"id": "samhbm", "L": 2, "name": "Samsung HBM", "sub": "US & allies", "cat": "hbm", "note": "Supplier in the report's data."}, {"id": "micron", "L": 2, "name": "Micron", "sub": "US & allies", "cat": "hbm", "note": "Supplier in the report's data."}, {"id": "cxmt", "L": 2, "name": "CXMT", "sub": "China", "cat": "hbm", "bloc": "china", "note": "Supplier in the report's data."}, {"id": "hibl", "L": 2, "name": "Huawei HiBL", "sub": "China", "cat": "hbm", "bloc": "china", "note": "Supplier in the report's data."}, {"id": "cowos", "L": 2, "name": "TSMC CoWoS", "sub": "US & allies", "cat": "pkg", "note": "Supplier in the report's data."}, {"id": "osat", "L": 2, "name": "Amkor / ASE", "sub": "US & allies", "cat": "pkg", "note": "Supplier in the report's data."}, {"id": "emib", "L": 2, "name": "Intel EMIB", "sub": "US & allies", "cat": "pkg", "note": "Supplier in the report's data."}, {"id": "sampkg", "L": 2, "name": "Samsung I-Cube", "sub": "US & allies", "cat": "pkg", "note": "Supplier in the report's data."}, {"id": "cnosat", "L": 2, "name": "China packaging (unnamed)", "sub": "China", "cat": "pkg", "bloc": "china", "note": "Supplier in the report's data."}];
+const EDGES = [["deepseek", "ascend", "c", 0.55, "e"], ["deepseek", "nvidia", "x", 0.4, "e"], ["deepseek", "cambricon", "r", 0.05, "e"], ["alibaba", "ascend", "c", 0.35, "e"], ["alibaba", "nvidia", "x", 0.4, "e"], ["alibaba", "thead", "c", 0.25, "e"], ["bytedance", "ascend", "c", 0.45, "e"], ["bytedance", "nvidia", "x", 0.45, "e"], ["bytedance", "bdasic", "r", 0.1, "e"], ["tencent", "ascend", "c", 0.4, "e"], ["tencent", "nvidia", "x", 0.6, "e"], ["baidu", "kunlun", "c", 0.7, "e"], ["baidu", "ascend", "r", 0.3, "e"], ["zhipu", "ascend", "c", 1.0, "e"], ["moonshot", "nvidia", "x", 0.7, "e"], ["moonshot", "ascend", "r", 0.3, "e"], ["openai", "nvidia", "c", 0.5218, "e"], ["openai", "amd", "c", 0.1449, "e"], ["openai", "oaiasic", "c", 0.1449, "e"], ["openai", "cerebras", "c", 0.0551, "e"], ["openai", "trainium", "c", 0.1159, "e"], ["openai", "tpu", "r", 0.0174, "e"], ["anthropic", "tpu", "c", 0.4074, "e"], ["anthropic", "trainium", "c", 0.2148, "e"], ["anthropic", "nvidia", "c", 0.2667, "e"], ["anthropic", "amd", "c", 0.1111, "e"], ["meta", "nvidia", "c", 0.5584, "e"], ["meta", "amd", "c", 0.2538, "e"], ["meta", "mtia", "c", 0.132, "e"], ["meta", "tpu", "r", 0.0558, "e"], ["mistral", "nvidia", "c", 0.9212, "e"], ["mistral", "cerebras", "r", 0.0394, "e"], ["xai", "nvidia", "c", 1.0, "d"], ["gdm", "tpu", "c", 0.88, "e"], ["gdm", "nvidia", "r", 0.12, "e"], ["amzn", "trainium", "c", 0.7, "e"], ["amzn", "nvidia", "c", 0.3, "e"], ["msft", "nvidia", "c", 0.9, "e"], ["msft", "maia", "c", 0.1, "e"], ["nvidia", "tsmc", "c", 1.0, "d"], ["amd", "tsmc", "c", 1.0, "e"], ["tpu", "tsmc", "c", 1.0, "e"], ["trainium", "tsmc", "c", 1.0, "e"], ["mtia", "tsmc", "c", 1.0, "e"], ["maia", "tsmc", "c", 1.0, "d"], ["oaiasic", "tsmc", "r", 0.9, "e"], ["cerebras", "tsmc", "c", 1.0, "d"], ["nvidia", "cowos", "c", 0.9, "e"], ["nvidia", "osat", "c", 0.1, "e"], ["amd", "cowos", "c", 0.85, "e"], ["amd", "osat", "r", 0.15, "e"], ["tpu", "cowos", "c", 1.0, "e"], ["trainium", "cowos", "c", 0.95, "e"], ["trainium", "emib", "r", 0.05, "e"], ["mtia", "cowos", "c", 1.0, "e"], ["maia", "cowos", "r", 0.9, "e"], ["maia", "emib", "r", 0.1, "e"], ["ascend", "smic", "c", 0.7, "e"], ["ascend", "tsmc", "x", 0.3, "e"], ["cambricon", "smic", "c", 1.0, "e"], ["kunlun", "cnosat", "c", 0.5, "e"], ["kunlun", "sampkg", "c", 0.5, "e"], ["nvidia", "skh", "c", 0.62, "e"], ["nvidia", "samhbm", "c", 0.27, "e"], ["nvidia", "micron", "c", 0.11, "e"], ["amd", "samhbm", "c", 0.6, "e"], ["amd", "skh", "r", 0.25, "e"], ["amd", "micron", "r", 0.15, "e"], ["tpu", "samhbm", "c", 0.55, "e"], ["tpu", "skh", "c", 0.45, "e"], ["trainium", "skh", "c", 0.4, "e"], ["trainium", "micron", "c", 0.3, "e"], ["trainium", "samhbm", "c", 0.3, "e"], ["maia", "skh", "c", 0.9, "e"], ["maia", "samhbm", "r", 0.1, "e"], ["oaiasic", "samhbm", "c", 0.8, "e"], ["ascend", "samhbm", "x", 0.4, "e"], ["ascend", "cxmt", "r", 0.3, "e"], ["ascend", "hibl", "c", 0.3, "e"]];
+const RESULTS = {"alibaba|lower": [0.5161, 0.4074, 0.6277], "alibaba|upper": [0.7665, 0.6851, 0.8618], "amzn|lower": [0.9669, 0.936, 0.997], "amzn|upper": [0.9669, 0.936, 0.997], "anthropic|lower": [0.9899, 0.973, 0.999], "anthropic|upper": [0.9899, 0.973, 0.999], "baidu|lower": [0.6913, 0.525, 0.8158], "baidu|upper": [0.9076, 0.8245, 0.9552], "bytedance|lower": [0.6006, 0.5116, 0.7105], "bytedance|upper": [0.7044, 0.6198, 0.8136], "deepseek|lower": [0.626, 0.5487, 0.7239], "deepseek|upper": [0.6461, 0.577, 0.7556], "gdm|lower": [1.0, 1.0, 1.0], "gdm|upper": [1.0, 1.0, 1.0], "meta|lower": [1.0, 1.0, 1.0], "meta|upper": [1.0, 1.0, 1.0], "mistral|lower": [0.8197, 0.7198, 0.9316], "mistral|upper": [0.9083, 0.8337, 0.9891], "moonshot|lower": [0.7941, 0.6616, 0.8818], "moonshot|upper": [0.7941, 0.6616, 0.8818], "msft|lower": [0.9861, 0.9714, 0.9937], "msft|upper": [0.9861, 0.9714, 0.9937], "openai|lower": [0.7666, 0.6463, 0.884], "openai|upper": [0.9242, 0.861, 0.9747], "tencent|lower": [0.7324, 0.5992, 0.845], "tencent|upper": [0.7324, 0.5992, 0.845], "xai|lower": [1.0, 1.0, 1.0], "xai|upper": [1.0, 1.0, 1.0], "zhipu|lower": [1.0, 1.0, 1.0], "zhipu|upper": [1.0, 1.0, 1.0]}; // lab|bound -> [median, p05, p95] (steps/step4/summary_by_lab.csv)
+const CHIPCOL = {"nvidia": "#2a78d6", "amd": "#eb6834", "cerebras": "#6250d6", "ascend": "#e34948", "cambricon": "#eda100", "tpu": "#0b5a3a", "trainium": "#1f7a4d", "mtia": "#3aa76d", "maia": "#62c08a", "oaiasic": "#9bd9b2", "kunlun": "#14532d", "thead": "#4f9d69", "bdasic": "#86c9a0", "unknown": "#a3a29c"}; // one global colour per chip (scripts/palette.py)
+
+const UP_NODES = [{"id": "asmlEUV", "L": 3, "cat": "euv", "name": "ASML EUV", "sub": "Netherlands", "note": "The only EUV lithography supplier. The article's flow analysis puts 61.5% of baseline flow through ASML EUV.", "sec": "Lithography"}, {"id": "asmlDUV", "L": 3, "cat": "duv", "name": "ASML DUV", "sub": "Netherlands", "note": "~90% of immersion DUV scanners. US/Dutch rules limit sales and servicing to Chinese fabs.", "sec": "Lithography"}, {"id": "nikon", "L": 3, "cat": "duv", "name": "Nikon / Canon", "sub": "Japan", "note": "The remaining DUV scanner suppliers.", "sec": "Lithography"}, {"id": "amat", "L": 3, "cat": "depetch", "name": "Applied Materials", "sub": "US", "note": "Largest deposition and process-equipment maker. US export rules restrict China sales.", "sec": "Process tools"}, {"id": "lam", "L": 3, "cat": "depetch", "name": "Lam Research", "sub": "US", "note": "Leader in etch. US export rules restrict China sales.", "sec": "Process tools"}, {"id": "tel", "L": 3, "cat": "track", "name": "Tokyo Electron", "sub": "Japan", "note": "~90% of EUV coater/developer tracks, plus etch and deposition.", "sec": "Process tools"}, {"id": "kla", "L": 3, "cat": "inspect", "name": "KLA", "sub": "US", "note": "Majority of wafer inspection and metrology. US export rules restrict China sales.", "sec": "Process tools"}, {"id": "naura", "L": 3, "cat": "depetch", "name": "Naura / AMEC", "sub": "China", "note": "China's domestic etch, deposition and inspection tools.", "sec": "Process tools", "bloc": "china"}, {"id": "shinetsu", "L": 4, "cat": "wafer", "name": "Shin-Etsu", "sub": "Japan", "note": "Largest silicon-wafer maker (~30%) and a top-three EUV photoresist maker: one firm in two categories.", "sec": "Silicon wafers"}, {"id": "sumco", "L": 4, "cat": "wafer", "name": "SUMCO", "sub": "Japan", "note": "~25% of 300 mm wafers.", "sec": "Silicon wafers"}, {"id": "globalwafers", "L": 4, "cat": "wafer", "name": "GlobalWafers", "sub": "Taiwan", "note": "~16% of 300 mm wafers.", "sec": "Silicon wafers"}, {"id": "siltronic", "L": 4, "cat": "wafer", "name": "Siltronic", "sub": "Germany", "note": "~13% of 300 mm wafers.", "sec": "Silicon wafers"}, {"id": "sksiltron", "L": 4, "cat": "wafer", "name": "SK Siltron", "sub": "Korea", "note": "~13% of 300 mm wafers.", "sec": "Silicon wafers"}, {"id": "jsr", "L": 4, "cat": "resist", "name": "JSR", "sub": "Japan", "note": "EUV and ArF photoresist leader. The article's \"surprising\" chokepoint: 31.2% of baseline flow.", "sec": "Photoresist"}, {"id": "tok", "L": 4, "cat": "resist", "name": "Tokyo Ohka Kogyo", "sub": "Japan", "note": "Second EUV/ArF photoresist leader; 7.3% of baseline flow in the article.", "sec": "Photoresist"}, {"id": "sumitomo", "L": 4, "cat": "resist", "name": "Sumitomo / Fujifilm", "sub": "Japan", "note": "Smaller ArF photoresist suppliers.", "sec": "Photoresist"}, {"id": "linde", "L": 5, "cat": "gas", "name": "Linde", "sub": "Germany / US", "note": "Industrial-gas distributor: purifies and delivers neon, krypton, xenon and helium to fabs.", "sec": "Gas distributors"}, {"id": "airliquide", "L": 5, "cat": "gas", "name": "Air Liquide", "sub": "France", "note": "Industrial-gas distributor: purifies and delivers neon, krypton, xenon and helium to fabs.", "sec": "Gas distributors"}, {"id": "airproducts", "L": 5, "cat": "gas", "name": "Air Products", "sub": "US", "note": "Industrial-gas distributor: purifies and delivers neon, krypton, xenon and helium to fabs.", "sec": "Gas distributors"}, {"id": "tns", "L": 5, "cat": "gas", "name": "Taiyo Nippon Sanso", "sub": "Japan", "note": "Industrial-gas distributor: purifies and delivers neon, krypton, xenon and helium to fabs.", "sec": "Gas distributors"}, {"id": "iwatani", "L": 5, "cat": "gas", "name": "Iwatani", "sub": "Japan", "note": "Industrial-gas distributor: purifies and delivers neon, krypton, xenon and helium to fabs.", "sec": "Gas distributors"}, {"id": "messer", "L": 5, "cat": "gas", "name": "Messer", "sub": "Germany", "note": "Industrial-gas distributor: purifies and delivers neon, krypton, xenon and helium to fabs.", "sec": "Gas distributors"}, {"id": "heUS", "L": 6, "cat": "helium", "name": "Helium · US", "sub": "~40% of supply", "note": "Helium cools wafers and process chambers.", "sec": "Helium"}, {"id": "heQA", "L": 6, "cat": "helium", "name": "Helium · Qatar", "sub": "~35% of supply", "note": "Helium cools wafers and process chambers.", "sec": "Helium"}, {"id": "heRU", "L": 6, "cat": "helium", "name": "Helium · Russia", "sub": "~10%", "note": "Helium cools wafers and process chambers.", "sec": "Helium"}, {"id": "heDZ", "L": 6, "cat": "helium", "name": "Helium · Algeria", "sub": "~7%", "note": "Helium cools wafers and process chambers.", "sec": "Helium"}, {"id": "neCN", "L": 6, "cat": "neon", "name": "Neon · China", "sub": "largest since 2022", "note": "Neon is the buffer gas in DUV excimer lasers; Ukraine supplied ~half before 2022.", "sec": "Neon", "bloc": "china"}, {"id": "neUA", "L": 6, "cat": "neon", "name": "Neon · Ukraine", "sub": "~25% after 2022", "note": "Neon is the buffer gas in DUV excimer lasers; Ukraine supplied ~half before 2022.", "sec": "Neon"}, {"id": "neRU", "L": 6, "cat": "neon", "name": "Neon · Russia", "sub": "~15%", "note": "Neon is the buffer gas in DUV excimer lasers; Ukraine supplied ~half before 2022.", "sec": "Neon"}, {"id": "krRU", "L": 6, "cat": "krxe", "name": "Kr/Xe · Russia", "sub": "~30%", "note": "Krypton (KrF lasers) and xenon (etch) are by-products of steel-mill air separation.", "sec": "Krypton & xenon"}, {"id": "krUA", "L": 6, "cat": "krxe", "name": "Kr/Xe · Ukraine", "sub": "~20%", "note": "Krypton (KrF lasers) and xenon (etch) are by-products of steel-mill air separation.", "sec": "Krypton & xenon"}, {"id": "krCN", "L": 6, "cat": "krxe", "name": "Kr/Xe · China", "sub": "~30%", "note": "Krypton (KrF lasers) and xenon (etch) are by-products of steel-mill air separation.", "sec": "Krypton & xenon", "bloc": "china"}, {"id": "hpqSP", "L": 6, "cat": "quartz", "name": "Quartz · Spruce Pine", "sub": "US, ~80%", "note": "High-purity quartz makes the crucibles every silicon ingot is grown in; Spruce Pine, North Carolina dominates.", "sec": "High-purity quartz"}, {"id": "hpqOT", "L": 6, "cat": "quartz", "name": "Quartz · other", "sub": "Norway, Russia, China", "note": "High-purity quartz makes the crucibles every silicon ingot is grown in; Spruce Pine, North Carolina dominates.", "sec": "High-purity quartz"}];
+const UP_EDGES = [["osat","cowos","c",1,"e","interposer"],["tsmc", "asmlEUV", "c", 1, "d"], ["tsmc", "asmlDUV", "c", 0.9, "e"], ["tsmc", "nikon", "c", 0.1, "e"], ["tsmc", "amat", "c", 0.35, "e"], ["tsmc", "lam", "c", 0.35, "e"], ["tsmc", "tel", "c", 0.2, "e", "depetch"], ["tsmc", "kla", "c", 0.6, "e"], ["tsmc", "shinetsu", "c", 0.3, "e"], ["tsmc", "sumco", "c", 0.25, "e"], ["tsmc", "globalwafers", "c", 0.16, "e"], ["tsmc", "siltronic", "c", 0.13, "e"], ["tsmc", "sksiltron", "c", 0.13, "e"], ["tsmc", "linde", "c", 0.3, "e"], ["tsmc", "airliquide", "c", 0.25, "e"], ["tsmc", "airproducts", "c", 0.15, "e"], ["tsmc", "tns", "c", 0.12, "e"], ["tsmc", "iwatani", "c", 0.08, "e"], ["tsmc", "messer", "c", 0.07, "e"], ["samfab", "asmlEUV", "c", 1, "d"], ["samfab", "asmlDUV", "c", 0.9, "e"], ["samfab", "nikon", "c", 0.1, "e"], ["samfab", "amat", "c", 0.35, "e"], ["samfab", "lam", "c", 0.35, "e"], ["samfab", "tel", "c", 0.2, "e", "depetch"], ["samfab", "kla", "c", 0.6, "e"], ["samfab", "shinetsu", "c", 0.3, "e"], ["samfab", "sumco", "c", 0.25, "e"], ["samfab", "globalwafers", "c", 0.16, "e"], ["samfab", "siltronic", "c", 0.13, "e"], ["samfab", "sksiltron", "c", 0.13, "e"], ["samfab", "linde", "c", 0.3, "e"], ["samfab", "airliquide", "c", 0.25, "e"], ["samfab", "airproducts", "c", 0.15, "e"], ["samfab", "tns", "c", 0.12, "e"], ["samfab", "iwatani", "c", 0.08, "e"], ["samfab", "messer", "c", 0.07, "e"], ["skh", "asmlEUV", "c", 1, "d"], ["skh", "asmlDUV", "c", 0.9, "e"], ["skh", "nikon", "c", 0.1, "e"], ["skh", "amat", "c", 0.35, "e"], ["skh", "lam", "c", 0.35, "e"], ["skh", "tel", "c", 0.2, "e", "depetch"], ["skh", "kla", "c", 0.6, "e"], ["skh", "shinetsu", "c", 0.3, "e"], ["skh", "sumco", "c", 0.25, "e"], ["skh", "globalwafers", "c", 0.16, "e"], ["skh", "siltronic", "c", 0.13, "e"], ["skh", "sksiltron", "c", 0.13, "e"], ["skh", "linde", "c", 0.3, "e"], ["skh", "airliquide", "c", 0.25, "e"], ["skh", "airproducts", "c", 0.15, "e"], ["skh", "tns", "c", 0.12, "e"], ["skh", "iwatani", "c", 0.08, "e"], ["skh", "messer", "c", 0.07, "e"], ["samhbm", "asmlEUV", "c", 1, "d"], ["samhbm", "asmlDUV", "c", 0.9, "e"], ["samhbm", "nikon", "c", 0.1, "e"], ["samhbm", "amat", "c", 0.35, "e"], ["samhbm", "lam", "c", 0.35, "e"], ["samhbm", "tel", "c", 0.2, "e", "depetch"], ["samhbm", "kla", "c", 0.6, "e"], ["samhbm", "shinetsu", "c", 0.3, "e"], ["samhbm", "sumco", "c", 0.25, "e"], ["samhbm", "globalwafers", "c", 0.16, "e"], ["samhbm", "siltronic", "c", 0.13, "e"], ["samhbm", "sksiltron", "c", 0.13, "e"], ["samhbm", "linde", "c", 0.3, "e"], ["samhbm", "airliquide", "c", 0.25, "e"], ["samhbm", "airproducts", "c", 0.15, "e"], ["samhbm", "tns", "c", 0.12, "e"], ["samhbm", "iwatani", "c", 0.08, "e"], ["samhbm", "messer", "c", 0.07, "e"], ["micron", "asmlEUV", "c", 1, "d"], ["micron", "asmlDUV", "c", 0.9, "e"], ["micron", "nikon", "c", 0.1, "e"], ["micron", "amat", "c", 0.35, "e"], ["micron", "lam", "c", 0.35, "e"], ["micron", "tel", "c", 0.2, "e", "depetch"], ["micron", "kla", "c", 0.6, "e"], ["micron", "shinetsu", "c", 0.3, "e"], ["micron", "sumco", "c", 0.25, "e"], ["micron", "globalwafers", "c", 0.16, "e"], ["micron", "siltronic", "c", 0.13, "e"], ["micron", "sksiltron", "c", 0.13, "e"], ["micron", "linde", "c", 0.3, "e"], ["micron", "airliquide", "c", 0.25, "e"], ["micron", "airproducts", "c", 0.15, "e"], ["micron", "tns", "c", 0.12, "e"], ["micron", "iwatani", "c", 0.08, "e"], ["micron", "messer", "c", 0.07, "e"], ["smic", "asmlDUV", "x", 0.8, "e"], ["smic", "nikon", "c", 0.1, "e"], ["smic", "amat", "x", 0.15, "e"], ["smic", "lam", "x", 0.15, "e"], ["smic", "naura", "c", 0.4, "e"], ["smic", "tel", "c", 0.2, "e", "depetch"], ["smic", "kla", "x", 0.4, "e"], ["smic", "shinetsu", "c", 0.18, "e"], ["smic", "sumco", "c", 0.15, "e"], ["smic", "globalwafers", "c", 0.1, "e"], ["smic", "siltronic", "c", 0.08, "e"], ["smic", "sksiltron", "c", 0.08, "e"], ["smic", "linde", "c", 0.2, "e"], ["smic", "airliquide", "c", 0.2, "e"], ["smic", "airproducts", "c", 0.1, "e"], ["smic", "messer", "c", 0.1, "e"], ["cxmt", "asmlDUV", "x", 0.8, "e"], ["cxmt", "nikon", "c", 0.1, "e"], ["cxmt", "amat", "x", 0.15, "e"], ["cxmt", "lam", "x", 0.15, "e"], ["cxmt", "naura", "c", 0.4, "e"], ["cxmt", "tel", "c", 0.2, "e", "depetch"], ["cxmt", "kla", "x", 0.4, "e"], ["cxmt", "shinetsu", "c", 0.18, "e"], ["cxmt", "sumco", "c", 0.15, "e"], ["cxmt", "globalwafers", "c", 0.1, "e"], ["cxmt", "siltronic", "c", 0.08, "e"], ["cxmt", "sksiltron", "c", 0.08, "e"], ["cxmt", "linde", "c", 0.2, "e"], ["cxmt", "airliquide", "c", 0.2, "e"], ["cxmt", "airproducts", "c", 0.1, "e"], ["cxmt", "messer", "c", 0.1, "e"], ["tsmc", "tel", "c", 0.9, "e", "track"], ["tsmc", "amat", "c", 0.15, "e", "inspect"], ["tsmc", "jsr", "c", 0.4, "e", "resist"], ["tsmc", "tok", "c", 0.35, "e", "resist"], ["tsmc", "shinetsu", "c", 0.25, "e", "resist"], ["samfab", "tel", "c", 0.9, "e", "track"], ["samfab", "amat", "c", 0.15, "e", "inspect"], ["samfab", "jsr", "c", 0.4, "e", "resist"], ["samfab", "tok", "c", 0.35, "e", "resist"], ["samfab", "shinetsu", "c", 0.25, "e", "resist"], ["skh", "tel", "c", 0.9, "e", "track"], ["skh", "amat", "c", 0.15, "e", "inspect"], ["skh", "jsr", "c", 0.4, "e", "resist"], ["skh", "tok", "c", 0.35, "e", "resist"], ["skh", "shinetsu", "c", 0.25, "e", "resist"], ["samhbm", "tel", "c", 0.9, "e", "track"], ["samhbm", "amat", "c", 0.15, "e", "inspect"], ["samhbm", "jsr", "c", 0.4, "e", "resist"], ["samhbm", "tok", "c", 0.35, "e", "resist"], ["samhbm", "shinetsu", "c", 0.25, "e", "resist"], ["micron", "tel", "c", 0.9, "e", "track"], ["micron", "amat", "c", 0.15, "e", "inspect"], ["micron", "jsr", "c", 0.4, "e", "resist"], ["micron", "tok", "c", 0.35, "e", "resist"], ["micron", "shinetsu", "c", 0.25, "e", "resist"], ["smic", "tel", "c", 0.8, "e", "track"], ["smic", "naura", "c", 0.3, "e", "inspect"], ["smic", "jsr", "c", 0.25, "e", "resist"], ["smic", "tok", "c", 0.3, "e", "resist"], ["smic", "shinetsu", "c", 0.2, "e", "resist"], ["smic", "sumitomo", "c", 0.1, "e", "resist"], ["cxmt", "tel", "c", 0.8, "e", "track"], ["cxmt", "naura", "c", 0.3, "e", "inspect"], ["cxmt", "jsr", "c", 0.25, "e", "resist"], ["cxmt", "tok", "c", 0.3, "e", "resist"], ["cxmt", "shinetsu", "c", 0.2, "e", "resist"], ["cxmt", "sumitomo", "c", 0.1, "e", "resist"], ["shinetsu", "hpqSP", "c", 0.8, "e", "quartz"], ["shinetsu", "hpqOT", "c", 0.2, "e", "quartz"], ["sumco", "hpqSP", "c", 0.8, "e", "quartz"], ["sumco", "hpqOT", "c", 0.2, "e", "quartz"], ["globalwafers", "hpqSP", "c", 0.8, "e", "quartz"], ["globalwafers", "hpqOT", "c", 0.2, "e", "quartz"], ["siltronic", "hpqSP", "c", 0.8, "e", "quartz"], ["siltronic", "hpqOT", "c", 0.2, "e", "quartz"], ["sksiltron", "hpqSP", "c", 0.8, "e", "quartz"], ["sksiltron", "hpqOT", "c", 0.2, "e", "quartz"], ["linde", "heUS", "c", 0.4, "e"], ["linde", "heQA", "c", 0.35, "e"], ["linde", "heRU", "x", 0.1, "e"], ["linde", "heDZ", "c", 0.07, "e"], ["linde", "neCN", "c", 0.4, "e"], ["linde", "neUA", "c", 0.25, "e"], ["linde", "neRU", "x", 0.15, "e"], ["linde", "krRU", "x", 0.3, "e"], ["linde", "krUA", "c", 0.2, "e"], ["linde", "krCN", "c", 0.3, "e"], ["airliquide", "heUS", "c", 0.4, "e"], ["airliquide", "heQA", "c", 0.35, "e"], ["airliquide", "heRU", "x", 0.1, "e"], ["airliquide", "heDZ", "c", 0.07, "e"], ["airliquide", "neCN", "c", 0.4, "e"], ["airliquide", "neUA", "c", 0.25, "e"], ["airliquide", "neRU", "x", 0.15, "e"], ["airliquide", "krRU", "x", 0.3, "e"], ["airliquide", "krUA", "c", 0.2, "e"], ["airliquide", "krCN", "c", 0.3, "e"], ["airproducts", "heUS", "c", 0.4, "e"], ["airproducts", "heQA", "c", 0.35, "e"], ["airproducts", "heRU", "x", 0.1, "e"], ["airproducts", "heDZ", "c", 0.07, "e"], ["airproducts", "neCN", "c", 0.4, "e"], ["airproducts", "neUA", "c", 0.25, "e"], ["airproducts", "neRU", "x", 0.15, "e"], ["airproducts", "krRU", "x", 0.3, "e"], ["airproducts", "krUA", "c", 0.2, "e"], ["airproducts", "krCN", "c", 0.3, "e"], ["tns", "heUS", "c", 0.4, "e"], ["tns", "heQA", "c", 0.35, "e"], ["tns", "heRU", "x", 0.1, "e"], ["tns", "heDZ", "c", 0.07, "e"], ["tns", "neCN", "c", 0.4, "e"], ["tns", "neUA", "c", 0.25, "e"], ["tns", "neRU", "x", 0.15, "e"], ["tns", "krRU", "x", 0.3, "e"], ["tns", "krUA", "c", 0.2, "e"], ["tns", "krCN", "c", 0.3, "e"], ["iwatani", "heUS", "c", 0.4, "e"], ["iwatani", "heQA", "c", 0.35, "e"], ["iwatani", "heRU", "x", 0.1, "e"], ["iwatani", "heDZ", "c", 0.07, "e"], ["iwatani", "neCN", "c", 0.4, "e"], ["iwatani", "neUA", "c", 0.25, "e"], ["iwatani", "neRU", "x", 0.15, "e"], ["iwatani", "krRU", "x", 0.3, "e"], ["iwatani", "krUA", "c", 0.2, "e"], ["iwatani", "krCN", "c", 0.3, "e"], ["messer", "heUS", "c", 0.4, "e"], ["messer", "heQA", "c", 0.35, "e"], ["messer", "heRU", "x", 0.1, "e"], ["messer", "heDZ", "c", 0.07, "e"], ["messer", "neCN", "c", 0.4, "e"], ["messer", "neUA", "c", 0.25, "e"], ["messer", "neRU", "x", 0.15, "e"], ["messer", "krRU", "x", 0.3, "e"], ["messer", "krUA", "c", 0.2, "e"], ["messer", "krCN", "c", 0.3, "e"]];
+const ALLNODES = NODES.concat(UP_NODES);
+const ALLEDGES = EDGES.concat(UP_EDGES);
+const byId = Object.fromEntries(ALLNODES.map(n => [n.id, n]));
+const catOf = e => e[5] || byId[e[1]].cat || "chip";
+const CATNAME = { chip:"Chips", fab:"Foundry", hbm:"HBM", pkg:"Packaging", euv:"EUV lithography", duv:"DUV lithography", depetch:"Deposition & etch", track:"Coater/developer", inspect:"Inspection", wafer:"Silicon wafers", resist:"Photoresist", gas:"Gases", helium:"Helium", neon:"Neon", krxe:"Krypton & xenon", quartz:"High-purity quartz", interposer:"CoWoS interposer (TSMC)" };
+const SECTION2 = { fab:"Foundry", hbm:"HBM memory", pkg:"Advanced packaging" };
+const COLS = [
+  { L:0, x:20,   w:190, title:"AI labs", sub:"beyond the article's L6" },
+  { L:1, x:390,  w:190, title:"Accelerators", sub:"article L6 · consumers" },
+  { L:2, x:760,  w:190, title:"Fabs, memory, packaging", sub:"article L4–L5" },
+  { L:3, x:1110, w:170, title:"Equipment", sub:"article L3" },
+  { L:4, x:1430, w:170, title:"Wafers & chemicals", sub:"article L2" },
+  { L:5, x:1720, w:170, title:"Gas distributors", sub:"article L1" },
+  { L:6, x:1990, w:170, title:"Raw inputs", sub:"article L0" },
+];
+const NH = 34;
+const TAIWAN = new Set(["tsmc"]); // pre-registered shared firms (US bloc)
+const state = { bloc: "all", reported: true, restricted: true, sel: null, measure: "exTSMC", eq: .25, mat: .5 };
+const NS = "http://www.w3.org/2000/svg";
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+// ---------- Visibility ----------
+let REACH = new Set();
+const statusOn = e => !(e[2] === "r" && !state.reported) && !(e[2] === "x" && !state.restricted);
+function labVisible(n) { return state.bloc === "all" || n.bloc === state.bloc; }
+function computeReach() {
+  REACH = new Set(ALLNODES.filter(n => n.L === 0 && labVisible(n)).map(n => n.id));
+  let grew = true;
+  while (grew) { grew = false; ALLEDGES.forEach(e => { if (REACH.has(e[0]) && statusOn(e) && !REACH.has(e[1])) { REACH.add(e[1]); grew = true; } }); }
+}
+const edgeOn = e => statusOn(e) && REACH.has(e[0]);
+const supplierEdges = id => ALLEDGES.filter(e => e[0] === id && edgeOn(e));
+const customerEdges = id => ALLEDGES.filter(e => e[1] === id && edgeOn(e));
+const visLabs = () => ALLNODES.filter(l => l.L === 0 && labVisible(l) && supplierEdges(l.id).length);
+const visUpstream = () => ALLNODES.filter(n => n.L > 0 && REACH.has(n.id));
+
+// ---------- Failure model ----------
+function impact(n) { return n.L === 3 ? state.eq : n.L >= 4 ? state.mat : 1; }
+let CACHE = new Map();
+function survivalMap(failId) {
+  if (CACHE.has(failId)) return CACHE.get(failId);
+  const memo = new Map(), F = byId[failId];
+  const surv = id => {
+    if (memo.has(id)) return memo.get(id);
+    memo.set(id, 1);                                   // guard (graph is acyclic)
+    const base = id === failId ? 1 - impact(F) : 1;
+    const groups = {};
+    ALLEDGES.filter(e => e[0] === id).forEach(e => { (groups[catOf(e)] ||= []).push(e); });
+    let lim = 1;
+    for (const c in groups) {
+      const all = groups[c], vis = all.filter(edgeOn);
+      const sumAll = all.reduce((t, e) => t + e[3], 0), unmod = Math.max(0, 1 - sumAll);
+      const sumVis = vis.reduce((t, e) => t + e[3], 0), denom = sumVis + unmod;
+      if (denom <= 0) continue;
+      const avail = (vis.reduce((t, e) => t + e[3] * surv(e[1]), 0) + unmod) / denom;
+      lim = Math.min(lim, avail);
+    }
+    const v = base * lim; memo.set(id, v); return v;
+  };
+  const out = { surv }; CACHE.set(failId, out); return out;
+}
+const labLoss = (labId, failId) => 1 - survivalMap(failId).surv(labId);
+function failure(nodeId) {
+  return visLabs().map(l => ({ id: l.id, loss: labLoss(l.id, nodeId) })).filter(r => r.loss > 0.0005).sort((a, b) => b.loss - a.loss);
+}
+function vulnerability(labId) {
+  let worst = { loss: 0, node: null };
+  visUpstream().filter(n => n.L <= 2 && (state.measure !== "exTSMC" || !(TAIWAN.has(n.id) && byId[labId].bloc === "west")))
+    .forEach(n => { const v = labLoss(labId, n.id); if (v > worst.loss) worst = { loss: v, node: n.id }; });
+  return worst;
+}
+const MEASURE_LABEL = { worst: "Worst single failure", exTSMC: "Worst single failure excluding shared firms (TSMC)" };
+const pct = x => `${Math.round(x * 100)}%`;
+function vulnColor(x) {
+  const stops = [[0,[46,140,90]],[.5,[214,150,40]],[1,[196,52,44]]];
+  const i = x <= .5 ? 0 : 1, [p0,c0] = stops[i], [p1,c1] = stops[i+1], t = (x - p0) / (p1 - p0);
+  return `rgb(${c0.map((v, k) => Math.round(v + (c1[k] - v) * t)).join(",")})`;
+}
+
+// ---------- Layout ----------
+function layout() {
+  const pos = {}, heads = [];
+  let H = 0;
+  COLS.forEach(col => {
+    const ns = ALLNODES.filter(n => n.L === col.L);
+    let y = 76;
+    if (col.L <= 1) {
+      const step = col.L === 0 ? 46 : null;
+      if (col.L === 0) ns.forEach((n, i) => { if (i > 0 && n.bloc !== ns[i-1].bloc) y += 26; pos[n.id] = { x: col.x, y }; y += 46; });
+      else {
+        const labs = ALLNODES.filter(n => n.L === 0), span = labs.length * 46 + 26, gap = (span - 26) / ns.length;
+        ns.forEach((n, i) => { if (i > 0 && n.bloc !== ns[i-1].bloc) y += 26; pos[n.id] = { x: col.x, y }; y += gap; });
+      }
+    } else {
+      const secOf = n => col.L === 2 ? SECTION2[n.cat] : n.sec;
+      let last = null;
+      ns.forEach(n => {
+        const sec = secOf(n);
+        if (sec !== last) { if (last !== null) y += 10; heads.push({ x: col.x, y: y + 4, label: sec }); y += 20; last = sec; }
+        pos[n.id] = { x: col.x, y }; y += col.L === 6 ? 42 : 44;
+      });
+    }
+    H = Math.max(H, y);
+  });
+  return { pos, heads, H: H + 20 };
+}
+
+// ---------- Render ----------
+const svg = document.getElementById("g");
+function render() {
+  computeReach(); CACHE = new Map();
+  svg.innerHTML = "";
+  const { pos, heads, H } = layout();
+  FULL = { x: 0, y: 0, w: 2180, h: H };
+  if (!VB) VB = { x: 0, y: 0, w: 990, h: H };
+  applyVB();
+  COLS.forEach(c => {
+    el("text", { x: c.x, y: 30, class: "colhead" }, svg).textContent = c.title;
+    el("text", { x: c.x, y: 46, class: "colsub" }, svg).textContent = c.sub;
+  });
+  heads.forEach(h => { el("text", { x: h.x, y: h.y, class: "sechead" }, svg).textContent = h.label; });
+
+  // focus: selected node, everything upstream of it, and everything downstream of it
+  let focus = null, hotEdges = null;
+  if (state.sel) {
+    focus = new Set([state.sel]); hotEdges = new Set();
+    const down = [state.sel], up = [state.sel];
+    while (up.length) { const id = up.pop(); supplierEdges(id).forEach(e => { hotEdges.add(e); if (!focus.has(e[1])) { focus.add(e[1]); up.push(e[1]); } }); }
+    const seen = new Set([state.sel]);
+    while (down.length) { const id = down.pop(); customerEdges(id).forEach(e => { hotEdges.add(e); focus.add(e[0]); if (!seen.has(e[0])) { seen.add(e[0]); down.push(e[0]); } }); }
+  }
+
+  const gE = el("g", {}, svg), gN = el("g", {}, svg);
+  ALLEDGES.forEach(e => {
+    if (!edgeOn(e)) return;
+    const a = byId[e[0]], b = byId[e[1]];
+    if (a.L === b.L) return;                         // same-column dependency (Amkor/ASE on CoWoS) is modelled, not drawn
+    const p = pos[a.id], q = pos[b.id], wa = COLS[a.L].w;
+    const x1 = p.x + wa, y1 = p.y + NH/2, x2 = q.x, y2 = q.y + NH/2, mx = (x1 + x2) / 2;
+    const cls = ["edge", a.bloc || b.bloc || "west", a.L >= 2 ? "up" : "", e[2] === "r" ? "reported" : "", e[2] === "x" ? "restricted" : ""];
+    if (focus) cls.push(hotEdges.has(e) ? "hot" : "dim");
+    el("path", { d: `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`, class: cls.join(" "), "stroke-width": 0.8 + e[3] * (a.L >= 2 ? 6 : 9), style: a.L === 0 && CHIPCOL[b.id] ? "stroke:" + CHIPCOL[b.id] : "" }, gE);
+  });
+
+  ALLNODES.forEach(n => {
+    const p = pos[n.id], w = COLS[n.L].w;
+    const visible = REACH.has(n.id);
+    const g = el("g", { class: "node" + (state.sel === n.id ? " sel" : "") + ((!visible || (focus && !focus.has(n.id))) ? " dim" : ""), transform: `translate(${p.x},${p.y})`, tabindex: visible ? 0 : -1, role: "button", "aria-label": `${n.name}, ${n.sub}` }, gN);
+    el("rect", { width: w, height: NH, rx: 6 }, g);
+    let barColor = n.L === 1 && CHIPCOL[n.id] ? CHIPCOL[n.id] : n.L >= 2 ? "var(--d4)" : (n.bloc === "china" ? "var(--china)" : "var(--west)");
+    if (n.L === 0 && visible) {
+      const v = vulnerability(n.id), col = vulnColor(v.loss);
+      g.querySelector("rect").setAttribute("style", `fill: color-mix(in srgb, ${col} 16%, var(--surface)); stroke: ${col}`);
+      barColor = col;
+      const b = el("text", { x: w - 8, y: 21, "text-anchor": "end", class: "badge vuln" }, g);
+      b.textContent = pct(v.loss); b.setAttribute("style", `fill: ${col}`);
+    }
+    el("rect", { class: "bar", width: 5, height: NH, rx: 2, fill: barColor }, g);
+    el("text", { x: 12, y: 15 }, g).textContent = n.name;
+    el("text", { x: 12, y: 28, class: "sub" }, g).textContent = n.sub;
+    if (n.L > 0 && visible) {
+      const f = failure(n.id), big = f.filter(r => r.loss >= .5).length, top = f.length ? f[0].loss : 0;
+      const b = el("text", { x: w - 8, y: n.L >= 3 ? 28 : 15, "text-anchor": "end", class: "badge" }, g);
+      b.textContent = "";
+    }
+    if (visible) {
+      g.addEventListener("click", () => select(n.id));
+      g.addEventListener("keydown", ev => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(n.id); } });
+    }
+  });
+  renderPanel();
+  renderTiles();
+}
+
+// ---------- Panel ----------
+function sharesList(rows) {
+  return `<ul>${rows.map(r => `<li>${byId[r.id].name}: <strong>${pct(r.share)}</strong> <span class="tag">${r.basis === "e" ? "est." : "disclosed"}</span>${r.st === "r" ? " <span class=\"tag\">reported</span>" : r.st === "x" ? " <span class=\"tag\">license-restricted</span>" : ""}</li>`).join("")}</ul>`;
+}
+function lossList(rows) {
+  if (!rows.length) return "<p>No lab loses compute.</p>";
+  return `<ul class="loss">${rows.map(r => `<li><span class="sw" style="background:${vulnColor(r.loss)}"></span>${byId[r.id].name} <strong>${pct(r.loss)}</strong></li>`).join("")}</ul>`;
+}
+function inputsHTML(id) {
+  const es = supplierEdges(id), groups = {};
+  es.forEach(e => { (groups[catOf(e)] ||= []).push(e); });
+  let h = "";
+  for (const c in groups) {
+    const g = groups[c], tot = g.reduce((t, e) => t + e[3], 0), all = ALLEDGES.filter(e => e[0] === id && catOf(e) === c).reduce((t, e) => t + e[3], 0);
+    const unmod = Math.max(0, 1 - all);
+    h += `<h3>${CATNAME[c] || c}</h3>` + sharesList(g.map(e => ({ id: e[1], share: byId[id].L === 0 ? e[3] / tot : e[3], basis: e[4], st: e[2] })));
+    if (byId[id].L > 0 && unmod > .005) h += `<p class="tag">${pct(unmod)} from suppliers not modelled</p>`;
+  }
+  return h;
+}
+function renderPanel() {
+  const P = document.getElementById("panel");
+  if (!state.sel) {
+    P.innerHTML = `<h2>Select a node</h2>
+      <p>Lab colour shows <strong>${MEASURE_LABEL[state.measure]}</strong>: the share of a lab's compute that disappears if its single most damaging supplier fails, anywhere from the chip down to raw neon. Every US-aligned lab depends on TSMC, so "excluding shared firms" shows how they differ beyond that shared dependency.</p>
+      <p>Edge thickness is a share: of a lab's compute, of a chip's supply, or of a fab's intake of one input.</p>
+      
+      <p>The two sliders set how much output a fab loses within a year when an equipment maker, or a material or gas source, fails.</p>`;
+    return;
+  }
+  const n = byId[state.sel];
+  const kinds = ["AI lab","Accelerator",({fab:"Foundry",hbm:"HBM supplier",pkg:"Packaging"})[n.cat],"Equipment · article L3","Wafers & chemicals · article L2","Gas distributor · article L1","Raw input · article L0"];
+  let html = `<div><span class="tag">${kinds[n.L]} · ${n.sub}</span></div><h2>${n.name}</h2><p>${n.note}</p>`;
+  if (n.L === 0) {
+    html += `<h3>Compute mix</h3>` + inputsHTML(n.id).replace(/<h3>Chips<\/h3>/, "");
+    const v = vulnerability(n.id);
+    html += `<h3>${MEASURE_LABEL[state.measure]}</h3><p><strong>${pct(v.loss)} lost</strong>${v.node ? ` if <strong>${byId[v.node].name}</strong> fails.` : ""}</p>`;
+    const top = visUpstream().map(m => ({ id: m.id, loss: labLoss(n.id, m.id) })).filter(r => r.loss > .0005).sort((a, b) => b.loss - a.loss).slice(0, 8);
+    const R = RESULTS[n.id + "|lower"], U = RESULTS[n.id + "|upper"];
+    if (R) html += `<h3>Uncertainty (1,000 draws, critical firm excl. shared)</h3><p>Median ${pct(R[0])} (5–95%: ${pct(R[1])}–${pct(R[2])}) if unknown suppliers keep working; ${pct(U[0])} (${pct(U[1])}–${pct(U[2])}) if an unknown supplier is the failed firm.</p>`;
+    html += `<h3>Exposure by node</h3>` + lossList(top);
+  } else {
+    if (n.L >= 3) html += `<p class="tag">Modelled as ${pct(impact(n))} of its supply lost within 12 months (slider)</p>`;
+    const ins = inputsHTML(n.id);
+    if (ins) html += `<h3 style="color:var(--ink)">Its inputs</h3>` + ins;
+    const cust = customerEdges(n.id);
+    if (cust.length) html += `<h3 style="color:var(--ink)">Its share of each customer's supply</h3>` + sharesList(cust.map(e => ({ id: e[0], share: e[3], basis: e[4], st: e[2] })));
+    html += `<h3 style="color:var(--ink)">If ${n.name} fails: compute lost</h3>` + lossList(failure(n.id));
+  }
+  html += `<p><button type="button" id="clear" class="tile" style="padding:6px 10px">Clear selection</button></p>`;
+  P.innerHTML = html;
+  document.getElementById("clear").addEventListener("click", () => select(null));
+}
+
+function renderTiles() {
+  const T = document.getElementById("tiles"), labs = visLabs();
+  const scored = visUpstream().map(n => {
+    const avg = labs.reduce((t, l) => t + labLoss(l.id, n.id), 0) / labs.length;
+    return { n, big: failure(n.id).filter(r => r.loss >= .5).length, avg };
+  }).sort((a, b) => b.avg - a.avg).slice(0, 4);
+  T.innerHTML = scored.map(s => `<button type="button" class="tile" data-id="${s.n.id}">
+      <span class="k">If ${s.n.name} fails</span>
+      <span class="v">${pct(s.avg)} average compute lost</span>
+      <span class="s">${s.big} of ${labs.length} labs lose half or more</span></button>`).join("");
+  T.querySelectorAll("button").forEach(b => b.addEventListener("click", () => select(b.dataset.id)));
+}
+
+function select(id) { state.sel = id; render(); }
+
+// ---------- Zoom & pan ----------
+let VB = null, FULL = null, justDragged = false;
+function applyVB() { svg.setAttribute("viewBox", `${VB.x} ${VB.y} ${VB.w} ${VB.h}`); }
+function clampVB() {
+  const minW = 260, maxW = FULL.w * 1.15;
+  const r = VB.h / VB.w;
+  if (VB.w < minW) { VB.h = minW * r; VB.w = minW; }
+  if (VB.w > maxW) { VB.h = maxW * r; VB.w = maxW; }
+  VB.x = Math.min(Math.max(VB.x, -VB.w * .5), FULL.w - VB.w * .5);
+  VB.y = Math.min(Math.max(VB.y, -VB.h * .5), FULL.h - VB.h * .5);
+}
+function toSvg(cx, cy) { const pt = svg.createSVGPoint(); pt.x = cx; pt.y = cy; return pt.matrixTransform(svg.getScreenCTM().inverse()); }
+function zoomAt(f, cx, cy) {
+  const p = cx == null ? { x: VB.x + VB.w / 2, y: VB.y + VB.h / 2 } : toSvg(cx, cy);
+  VB = { x: p.x - (p.x - VB.x) * f, y: p.y - (p.y - VB.y) * f, w: VB.w * f, h: VB.h * f };
+  clampVB(); applyVB();
+}
+function showRange(x0, x1) {
+  const box = svg.getBoundingClientRect(), aspect = box.height / box.width;
+  const w = x1 - x0, h = Math.max(FULL.h, w * aspect);
+  VB = { x: x0, y: 0, w: Math.max(w, FULL.h / aspect), h }; applyVB();
+}
+svg.addEventListener("wheel", ev => {
+  ev.preventDefault();
+  if (ev.ctrlKey || ev.metaKey) zoomAt(Math.exp(Math.max(-1, Math.min(1, ev.deltaY * 0.0025))), ev.clientX, ev.clientY);
+  else {
+    const k = VB.w / svg.clientWidth;
+    VB.x += (ev.shiftKey ? ev.deltaY : ev.deltaX) * k; if (!ev.shiftKey) VB.y += ev.deltaY * k;
+    clampVB(); applyVB();
+  }
+}, { passive: false });
+const ptrs = new Map(); let drag = null, pinch = null;
+svg.addEventListener("pointerdown", ev => {
+  ptrs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+  if (ptrs.size === 1) { drag = { x: ev.clientX, y: ev.clientY, vb: { ...VB }, moved: false, id: ev.pointerId }; justDragged = false; }
+  if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; pinch = { d: Math.hypot(a.x - b.x, a.y - b.y) }; drag = null; }
+});
+svg.addEventListener("pointermove", ev => {
+  if (!ptrs.has(ev.pointerId)) return;
+  ptrs.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+  if (pinch && ptrs.size === 2) {
+    const [a, b] = [...ptrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y);
+    if (d > 0) { zoomAt(pinch.d / d, (a.x + b.x) / 2, (a.y + b.y) / 2); pinch.d = d; justDragged = true; }
+    return;
+  }
+  if (!drag) return;
+  const dx = ev.clientX - drag.x, dy = ev.clientY - drag.y;
+  if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+  if (!drag.moved) { drag.moved = true; svg.setPointerCapture(ev.pointerId); svg.classList.add("panning"); }
+  const k = VB.w / svg.clientWidth;
+  VB = { ...VB, x: drag.vb.x - dx * k, y: drag.vb.y - dy * k }; clampVB(); applyVB();
+});
+function endPtr(ev) {
+  ptrs.delete(ev.pointerId);
+  if (drag && drag.moved) justDragged = true;
+  if (ptrs.size < 2) pinch = null;
+  if (ptrs.size === 0) { drag = null; svg.classList.remove("panning"); }
+}
+svg.addEventListener("pointerup", endPtr); svg.addEventListener("pointercancel", endPtr);
+svg.addEventListener("click", ev => { if (justDragged) { ev.stopPropagation(); ev.preventDefault(); justDragged = false; } }, true);
+document.getElementById("z-in").addEventListener("click", () => zoomAt(1 / 1.3));
+document.getElementById("z-out").addEventListener("click", () => zoomAt(1.3));
+document.getElementById("v-labs").addEventListener("click", () => showRange(0, 990));
+document.getElementById("v-up").addEventListener("click", () => showRange(1060, 2180));
+document.getElementById("v-all").addEventListener("click", () => { VB = { ...FULL }; applyVB(); });
+
+// ---------- Controls ----------
+const blocBtns = { all: "b-all", west: "b-west", china: "b-china" };
+Object.entries(blocBtns).forEach(([k, id]) => document.getElementById(id).addEventListener("click", () => {
+  state.bloc = k; state.sel = null;
+  Object.values(blocBtns).forEach(b => document.getElementById(b).setAttribute("aria-pressed", String(b === id)));
+  render();
+}));
+["worst","exTSMC"].forEach(m => document.getElementById("m-" + m).addEventListener("click", () => {
+  state.measure = m;
+  ["worst","exTSMC"].forEach(k => document.getElementById("m-" + k).setAttribute("aria-pressed", String(k === m)));
+  render();
+}));
+[["s-quo", true], ["s-rev", false]].forEach(([id, on]) => document.getElementById(id).addEventListener("click", () => {
+  state.restricted = on; state.sel = null;
+  ["s-quo", "s-rev"].forEach(k => document.getElementById(k).setAttribute("aria-pressed", String(k === id)));
+  render();
+}));
+[["r-eq","o-eq","eq"],["r-mat","o-mat","mat"]].forEach(([r, o, k]) => document.getElementById(r).addEventListener("input", e => {
+  state[k] = +e.target.value / 100; document.getElementById(o).value = e.target.value + "%"; render();
+}));
+
+{ const _h = location.hash.match(/^#(?:map-)?(\w+)$/); state.sel = _h && byId[_h[1]] ? _h[1] : "tsmc"; }
+render();
+</script>
+</body>
+</html>

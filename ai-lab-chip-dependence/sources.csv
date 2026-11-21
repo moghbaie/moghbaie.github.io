@@ -1,0 +1,95 @@
+source_id,title,publisher,date,url,accessed,fetched
+S01,Anthropic PBC final prospectus (424B4),SEC EDGAR,2026-11-19,https://www.sec.gov/Archives/edgar/data/2130357/000162828026074944/anthropicpbc-424b4.htm,2026-11-21,y
+S02,Anthropic PBC S-1/A Amendment No.3,SEC EDGAR,2026-11-17,https://www.sec.gov/Archives/edgar/data/2130357/000162828026074338/anthropicpbc-sx1ax3.htm,2026-11-21,y
+S03,Expanding our use of Google Cloud TPUs and services,Anthropic,2025-10-23,https://www.anthropic.com/news/expanding-our-use-of-google-cloud-tpus-and-services,2026-11-21,y
+S04,Broadcom Form 8-K (Anthropic ~3.5 GW TPU capacity from 2027),SEC EDGAR,2026-04-06,https://www.sec.gov/Archives/edgar/data/1730168/000119312526144028/d87999d8k.htm,2026-11-21,y
+S05,Anthropic Google Broadcom partnership compute,Anthropic,2026-04-06,https://www.anthropic.com/news/google-broadcom-partnership-compute,2026-11-21,y
+S06,Anthropic Amazon compute,Anthropic,2026-04-20,https://www.anthropic.com/news/anthropic-amazon-compute,2026-11-21,y
+S07,Anthropic compute partnership,xAI / SpaceXAI,2026-05-06,https://x.ai/news/anthropic-compute-partnership,2026-11-21,y
+S08,"Anthropic, SpaceXAI and the new compute race in AI",IDC,2026-05-12,https://www.idc.com/resource-center/blog/anthropic-spacexai-and-the-new-compute-race-in-ai/,2026-11-21,y
+S09,"Microsoft, NVIDIA and Anthropic announce strategic partnerships",Anthropic,2025-11-18,https://www.anthropic.com/news/microsoft-nvidia-anthropic-announce-strategic-partnerships,2026-11-21,y
+S10,AMD and Anthropic partnership (up to 2 GW MI450),AMD,2026-07-22,https://ir.amd.com/news-events/press-releases/detail/1292,2026-11-21,y
+S11,Anthropic IPO reveals 11GW compute footprint (third-party estimates),TradingKey,2026-10-27,https://www.tradingkey.com/analysis/stocks/us-stocks/262241466-anthropic-ipo-reveals-11gw-compute-footprint-nvidia-accounts-42-tradingkey,2026-11-21,y
+S12,OpenAI and NVIDIA strategic partnership to deploy 10GW,NVIDIA,2025-09-22,https://nvidianews.nvidia.com/news/openai-and-nvidia-announce-strategic-partnership-to-deploy-10gw-of-nvidia-systems,2026-11-21,y
+S13,Nvidia close to investing US$30 billion in OpenAI (Reuters),BNN Bloomberg,2026-02-20,https://www.bnnbloomberg.ca/business/artificial-intelligence/2026/02/20/nvidia-close-to-investing-us30-billion-in-openais-mega-funding-round-reuters-source-says/,2026-11-21,y
+S14,AWS and OpenAI $38 billion agreement,Amazon,2025-11-03,https://www.aboutamazon.com/news/aws/aws-open-ai-workloads-compute-infrastructure,2026-11-21,y
+S15,OpenAI Stargate: where the US sites stand,Epoch AI,2026-04-17,https://epoch.ai/publications/openai-stargate-where-the-us-sites-stand,2026-11-21,y
+S16,Oracle and OpenAI scrap planned 600MW Abilene expansion,Tom's Hardware,2026-03-10,https://www.tomshardware.com/tech-industry/oracle-and-openai-scrap-planned-600mw-abilene-expansion,2026-11-21,y
+S17,Introducing Stargate Norway,OpenAI,2025-07-31,https://openai.com/index/introducing-stargate-norway,2026-11-21,y
+S18,Five new Stargate sites,OpenAI,2025-09-23,https://openai.com/index/five-new-stargate-sites/,2026-11-21,y
+S19,AMD and OpenAI announce strategic partnership (6 GW),AMD,2025-10-06,https://newsroom.amd.com/news/amd-and-openai-announce-strategic-partnership-to-d/,2026-11-21,y
+S20,OpenAI and Broadcom announce strategic collaboration (10 GW),OpenAI,2025-10-13,https://openai.com/index/openai-and-broadcom-announce-strategic-collaboration/,2026-11-21,y
+S21,Broadcom Q1 FY2026 earnings call transcript,Motley Fool,2026-03-04,https://www.fool.com/earnings/call-transcripts/2026/03/04/broadcom-avgo-q1-2026-earnings-call-transcript,2026-11-21,y
+S22,OpenAI Cerebras partnership (750 MW),OpenAI,2026-01-14,https://openai.com/index/cerebras-partnership/,2026-11-21,y
+S23,Cerebras Systems 10-Q (quarter ended 2026-03-31),SEC EDGAR,2026-05,https://www.sec.gov/Archives/edgar/data/0002021728/000162828026044981/cbrs-20260331.htm,2026-11-21,y
+S24,Cerebras Systems 10-Q (quarter ended 2026-06-30),SEC EDGAR,2026-08,https://www.sec.gov/Archives/edgar/data/0002021728/000162828026056357/cbrs-20260630.htm,2026-11-21,y
+S25,OpenAI Amazon partnership (2 GW Trainium),OpenAI,2026-02-27,https://openai.com/index/amazon-partnership/,2026-11-21,y
+S26,Google alters cloud playbook turning to partners to sell more AI chips,CNBC,2026-10-28,https://www.cnbc.com/2026/10/28/google-alters-cloud-playbook-turning-to-partners-to-sell-more-ai-chips.html,2026-11-21,y
+S27,A business that scales with the value of intelligence,OpenAI,2026-01-18,https://openai.com/index/a-business-that-scales-with-the-value-of-intelligence/,2026-11-21,y
+S28,Meta builds AI infrastructure with NVIDIA,NVIDIA,2026-02-17,https://nvidianews.nvidia.com/news/meta-builds-ai-infrastructure-with-nvidia,2026-11-21,y
+S29,Inside Prometheus: Meta's gigawatt-scale supercluster,Meta Engineering,2026-10-19,https://engineering.fb.com/2026/10/19/data-center-engineering/inside-prometheus-meta-gigawatt-scale-supercluster/,2026-11-21,y
+S30,Meta and CoreWeave strike deal expansion,CIO Dive,2026-04-09,https://www.ciodive.com/news/meta-coreweave-strike-deal-expansion-compute-capacity/817109/,2026-11-21,y
+S31,Nebius signs AI capacity deal with Meta for at least $12 billion (Reuters),The Star,2026-03-16,https://www.thestar.com.my/tech/tech-news/2026/03/16/nebius-signs-ai-capacity-deal-with-meta-for-at-least-12-billion,2026-11-21,y
+S32,AMD and Meta partnership (up to 6 GW Instinct),AMD,2026-02-24,https://ir.amd.com/news-events/press-releases/detail/1279/,2026-11-21,y
+S33,Google signs multibillion-dollar AI chip deal with Meta (Reuters citing The Information),The Star,2026-02-27,https://www.thestar.com.my/tech/tech-news/2026/02/27/google-signs-multibillion-dollar-ai-chip-deal-with-meta-information-reports,2026-11-21,y
+S34,Expanding Meta's custom silicon to power our AI workloads,Meta,2026-03-11,https://about.fb.com/news/2026/03/expanding-metas-custom-silicon-to-power-our-ai-workloads/,2026-11-21,y
+S35,Meta partners with Broadcom to co-develop custom AI silicon,Meta,2026-04-14,https://about.fb.com/news/2026/04/meta-partners-with-broadcom-to-co-develop-custom-ai-silicon/,2026-11-21,y
+S36,Gemini 4 Argon model card,Google DeepMind,2026-10-13,https://deepmind.google/models/model-cards/gemini-4-argon/,2026-11-21,y
+S37,Google's custom TPUs and AI compute,Epoch AI,2026-04-07,https://epoch.ai/data-insights/google-custom-tpus-ai-compute/,2026-11-21,y
+S38,Google SpaceX $920 million a month compute deal,The Next Web,2026-06-06,https://thenextweb.com/news/google-spacex-920-million-month-compute-deal,2026-11-21,y
+S39,The Amazon Nova family of models: technical report,Amazon AGI (arXiv),2025-03-17,https://arxiv.org/html/2506.12103v1,2026-11-21,y
+S40,Amazon Q1 2026 earnings call transcript,Motley Fool,2026-04-29,https://www.fool.com/earnings/call-transcripts/2026/04/29/amazon-amzn-q1-2026-earnings-call-transcript/,2026-11-21,y
+S41,Andy Jassy: Peter DeSantis leadership update,Amazon,2025-12-17,https://www.aboutamazon.com/news/company-news/andy-jassy-peter-desantis-amazon-leadership-update,2026-11-21,y
+S42,Two new in-house models (MAI-1-preview on ~15k H100),Microsoft AI,2025-08-28,https://microsoft.ai/news/two-new-in-house-models/,2026-11-21,y
+S43,Frontier pre-training at Microsoft AI (MAI Base 2 on 16k GB200),Microsoft AI,2026-10-15,https://microsoft.ai/news/frontier-pre-training-at-microsoft-ai/,2026-11-21,y
+S44,Maia 200: the AI accelerator built for inference,Microsoft,2026-01-26,https://blogs.microsoft.com/blog/2026/01/26/maia-200-the-ai-accelerator-built-for-inference/,2026-11-21,y
+S45,Microsoft Maia multi-gigawatt deployments from 2027,Microsoft,2026-10-12,https://blogs.microsoft.com/?p=52563158,2026-11-21,y
+S46,NVIDIA and Microsoft AI superfactories,NVIDIA,2025-11-18,https://blogs.nvidia.com/blog/nvidia-microsoft-ai-superfactories/,2026-11-21,y
+S47,Meta AI MTIA chip data center,CNBC,2026-03-11,https://www.cnbc.com/2026/03/11/meta-ai-mtia-chip-data-center.html,2026-11-21,y
+S48,The next chapter of the Microsoft–OpenAI partnership,OpenAI,2025-10-28,https://openai.com/index/next-chapter-of-microsoft-openai-partnership/,2026-11-21,y
+S49,Space Exploration Technologies Corp. S-1,SEC EDGAR,2026-05-20,https://www.sec.gov/Archives/edgar/data/1181412/000162828026036936/spaceexplorationtechnologi.htm,2026-11-21,y
+S50,SpaceX Q2 2026 earnings webcast transcript,SpaceX,2026-08-04,https://s21.q4cdn.com/184289198/files/doc_financials/2026/q2/SpaceX-Q2-2026-Earnings_Transcript-FINAL.pdf,2026-11-21,y
+S51,SpaceX reports third quarter 2026 results,SpaceX,2026-10-20,https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Reports-Third-Quarter-2026-Results.pdf,2026-11-21,y
+S52,SpaceX Q3 2026 webcast transcript,SpaceX,2026-10-20,https://s21.q4cdn.com/184289198/files/content_files/SpaceX-Third-Quarter-2026-Webcast-Transcript.pdf,2026-11-21,y
+S53,Elon Musk says he expects to keep buying GPUs from Nvidia and AMD,CNBC,2025-05-20,https://www.cnbc.com/2025/05/20/elon-musk-says-he-expects-to-keep-buying-gpus-from-nvidia-and-amd.html,2026-11-21,y
+S54,France sovereign AI infrastructure (Mistral Compute 18k Grace Blackwell),NVIDIA,2025-06-11,https://blogs.nvidia.com/blog/france-sovereign-ai-infrastructure,2026-11-21,y
+S55,Mistral AI Paris data center cluster debt financing,CNBC,2026-03-30,https://www.cnbc.com/2026/03/30/mistral-ai-paris-data-center-cluster-debt-financing.html,2026-11-21,y
+S56,Mistral AI and EcoDataCenter partner to build AI data center in Sweden,EcoDataCenter,2026-02-11,https://www.mynewsdesk.com/se/ecodatacenter/pressreleases/mistral-ai-and-ecodatacenter-partner-to-build-ai-focused-data-center-in-sweden-3431886,2026-11-21,y
+S57,Microsoft and Mistral expand strategic partnership,PR Newswire,2026-07-21,https://www.prnewswire.com/news-releases/microsoft-and-mistral-expand-strategic-partnership-to-give-enterprises-and-regulated-industries-frontier-ai-they-can-control-302830202.html,2026-11-21,y
+S58,Cerebras Inference powering Mistral Le Chat,Cerebras,2025-02-06,https://www.cerebras.ai/blog/mistral-le-chat,2026-11-21,y
+S59,Regional inference and new compute,Mistral AI,2026-08-11,https://mistral.ai/news/regional-inference-open-models-new-compute/,2026-11-21,y
+S60,Mistral CEO Mensch on agentic AI and chips,CNBC,2026-06-12,https://www.cnbc.com/2026/06/12/tech-download-mistral-mensch-agentic-ai-chips.html,2026-11-21,y
+S61,Mistral AI launches Vibe and announces data center push,VentureBeat,2026-05-28,https://venturebeat.com/ai/mistral-ai-launches-vibe-expands-into-industrial-ai-and-announces-data-center-push-to-challenge-openai/,2026-11-21,y
+S62,DeepSeek reportedly plans Huawei Ascend 950DT deployment,Crypto Briefing,2026-09-21,https://cryptobriefing.com/deepseek-huawei-ai-training-chips/,2026-11-21,y
+S63,Alibaba scales AI compute with new chip and 20 GW data center target,KrASIA,2026-09-22,https://www.kr-asia.com/alibaba-scales-ai-compute-with-new-chip-and-20-gw-data-center-target,2026-11-21,y
+S64,Alibaba unveils new AI chip to rival Nvidia's China offerings,Caixin Global,2026-01-29,https://www.caixinglobal.com/2026-01-29/alibaba-unveils-new-ai-chip-to-rival-nvidias-china-offerings-102409364.html,2026-11-21,y
+S65,TikTok parent plans $14 billion Nvidia chip spend (via SCMP),Benzinga / Yahoo Finance,2026-01-02,https://finance.yahoo.com/news/tiktok-parent-plans-14-billion-133112137.html,2026-11-21,y
+S66,Tencent reportedly signs $7B deal to lease 100000 AI chips from Oracle in Southeast Asia,TrendForce,2026-10-01,https://trendforce.com/news/2026/10/01/news-tencent-reportedly-signs-7b-deal-to-lease-100000-ai-chips-from-oracle-in-southeast-asia/,2026-11-21,y
+S67,Baidu launches AI model amid chip curbs (30000 Kunlun P800 cluster),Reuters / Yahoo Finance,2025-04-24,https://finance.yahoo.com/news/baidu-launches-ai-model-amid-021731378.html,2026-11-21,y
+S68,Moonshot's Kimi built on 20000 Nvidia chip cluster from Alibaba,Bloomberg Law,2026-07-31,https://news.bloomberglaw.com/artificial-intelligence/moonshots-kimi-built-on-20-000-nvidia-chip-cluster-from-alibaba,2026-11-21,y
+S69,NVIDIA Blackwell platform arrives (custom-built 4NP TSMC process),NVIDIA,2024-03-18,https://nvidianews.nvidia.com/news/nvidia-blackwell-platform-arrives-to-power-a-new-era-of-computing,2026-11-21,y
+S70,Custom AI ASICs examined: from Broadcom to MTIA,Tom's Hardware,2026-05-21,https://www.tomshardware.com/tech-industry/semiconductors/custom-ai-asics-examined-from-broadcom-to-mtia,2026-11-21,y
+S71,TSMC 1Q profit seen up 50%; Meta/Broadcom AI chips target 2nm CoWoS-L in 1H27,TrendForce,2026-04-16,https://www.trendforce.com/news/2026/04/16/news-tsmc-1q-profit-seen-up-50-to-record-meta-broadcom-ai-chips-reportedly-target-2nm-cowos-l-in-1h27/,2026-11-21,y
+S72,Cerebras Systems S-1 (first 100k characters read),SEC EDGAR,2024-09,https://www.sec.gov/Archives/edgar/data/2021728/000162828024041596/cerebras-sx1.htm,2026-11-21,y
+S73,TSMC die and Samsung memory confirmed in Huawei 910C,Notebookcheck,2025-10-03,https://www.notebookcheck.net/TSMC-die-and-Samsung-memory-confirmed-in-Huawei-910C-set-to-replace-Nvidia-AI-chips.1130790.0.html,2026-11-21,y
+S74,Baidu Kunlunxin P800 AI accelerator interconnect and packaging analysis,TechInsights,2026-05-07,https://techinsights.com/blog/baidu-kunlunxin-p800-ai-accelerator-interconnect-and-packaging-analysis,2026-11-21,y
+S75,TSMC reportedly expands outsourcing of key CoWoS front-end step to OSATs,TrendForce,2026-08-05,https://www.trendforce.com/news/2026/08/05/news-tsmc-reportedly-expands-outsourcing-of-key-cowos-front-end-step-to-osats-amid-rising-nvidia-asic-demand/,2026-11-21,y
+S76,Nvidia Rubin Ultra seen sticking to dual-die design on packaging constraints,TrendForce,2026-04-01,https://www.trendforce.com/news/2026/04/01/news-nvidias-rubin-ultra-seen-sticking-to-dual-die-design-on-packaging-constraints-tsmc-3nm-demand-intact/,2026-11-21,y
+S77,Intel EMIB-T adoption: Google TPU v9 and Amazon custom chips (citing ZDNet Korea),TrendForce,2026-11-05,https://www.trendforce.com/news/?p=66256,2026-11-21,y
+S78,Intel EMIB packaging gains traction; Google reported decision for 9th-gen TPUs,Tom's Hardware,2026-07-15,https://www.tomshardware.com/tech-industry/semiconductors/intels-emib-packaging-gains-traction-as-chip-designers-look-to-skirt-tsmcs-cowos-constraints-googles-reported-decision-for-9th-gen-tpus-highlights-intels-attractive-alternative,2026-11-21,y
+S79,SK hynix reportedly to supply about two-thirds of NVIDIA HBM4 (citing Yonhap),TrendForce,2026-01-28,https://www.trendforce.com/news/2026/01/28/news-sk-hynix-reportedly-to-supply-about-two-thirds-of-nvidia-hbm4-samsung-targets-early-delivery/,2026-11-21,y
+S80,SK hynix has won two-thirds of Nvidia's next-gen HBM orders,Korea JoongAng Daily,2026-01-28,https://www.koreajoongangdaily.com/business/sk-hynix-has-won-two-thirds-of-nvidias-next-gen-high-bandwidth-memory-orders-industry-sources/12030483,2026-11-21,y
+S81,Samsung HBM4 reportedly to ship first; initial share projected at mid-20% (citing Hankyung),TrendForce,2026-02-09,https://www.trendforce.com/news/2026/02/09/news-samsung-hbm4-reportedly-to-ship-first-after-lunar-new-year-initial-share-projected-at-mid-20/,2026-11-21,y
+S82,The memory industry is at a turning point with HBM4 (embedding SemiAnalysis),Wccftech,2026-02-09,https://wccftech.com/the-memory-industry-is-at-a-turning-point-with-hbm4/,2026-11-21,y
+S83,Nvidia locks in SK Hynix for the AI memory race,The Next Web,2026-06-08,https://thenextweb.com/news/nvidia-locks-in-sk-hynix-for-the-ai-memory-race-as-the-chip-industrys-toughest-bottleneck-gets-its-own-multi-year-deal,2026-11-21,y
+S84,Micron: shipped more than $1 billion of HBM4,Herald Business,2026-06-25,https://biz.heraldcorp.com/article/10787653,2026-11-21,y
+S85,AMD to use Samsung HBM4 chips in next-generation AI GPU,SamMobile,2026-03-18,https://www.sammobile.com/news/amd-use-samsung-hbm4-chips-next-generation-ai-gpu/,2026-11-21,y
+S86,Samsung reportedly supplies 60% of Google TPU HBM3E (citing Hankyung),TrendForce,2025-12-01,https://www.trendforce.com/news/2025/12/01/news-samsung-reportedly-supplies-60-of-google-tpu-hbm3e-set-to-remain-primary-supplier-in-2026/,2026-11-21,y
+S87,Samsung HBM4 reportedly beats expectations in Broadcom test (citing Chosun Biz),TrendForce,2025-12-03,https://www.trendforce.com/news/2025/12/03/news-samsung-hbm4-reportedly-beats-expectations-in-broadcom-test-set-to-lead-2026-google-tpu-supply/,2026-11-21,y
+S88,"Google marks first-ever 4-TPU year (HBM3E orders ~50/50, citing Newsis)",TrendForce,2026-11-10,https://www.trendforce.com/news/2026/11/10/news-google-marks-first-ever-4-tpu-year-with-8tx-and-8i-max-as-8i-max-doubles-hbm-bandwidth/,2026-11-21,y
+S89,AWS Trainium3 deep dive,SemiAnalysis,2025-12-04,https://newsletter.semianalysis.com/p/aws-trainium3-deep-dive-a-potential,2026-11-21,y
+S90,Microsoft unveils Maia 200; SK hynix reportedly sole HBM3E supplier (citing Maeil),TrendForce,2026-01-27,https://trendforce.com/news/2026/01/27/news-microsoft-unveils-maia-200-ai-chip-on-tsmc-3nm-sk-hynix-reportedly-sole-hbm3e-supplier,2026-11-21,y
+S91,"Maia 300 HBM4: SK hynix leading contender, Samsung possible (citing Economy Tribune)",TrendForce,2026-10-13,https://www.trendforce.com/news/?p=65166,2026-11-21,y
+S92,OpenAI debuts Jalapeno AI inference chip with Samsung reportedly supplying HBM4,TrendForce,2026-08-26,https://www.trendforce.com/news/2026/08/26/news-openai-debuts-jalapeno-ai-inference-chip-with-samsung-reportedly-supplying-hbm4/,2026-11-21,y
+S93,OpenAI says it is working with Samsung on next-gen chips (citing Aju News),TrendForce,2026-09-09,https://trendforce.com/news/2026/09/09/news-openai-says-it-is-working-with-samsung-on-next-gen-chips-ties-could-expand-beyond-memory,2026-11-21,y
+S94,Huawei's roadmap to 2031,Epoch AI,2026-09-24,https://epoch.ai/publications/huaweis-roadmap-to-2031,2026-11-21,y
